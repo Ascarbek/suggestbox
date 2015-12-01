@@ -1,0 +1,25 @@
+{
+  "name": "suggestbox",
+  "description": "angular suggestbox",
+  "main": "index.js",
+  "authors": [
+    "ascarbek@gmail.com"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "dropdown"
+  ],
+  "homepage": "https://github.com/Ascarbek/suggestbox",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "underscore": "~1.8.3"
+  }
+}
