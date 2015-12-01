@@ -5,5 +5,5 @@
     'use strict';
 
     angular
-        .module('azSuggestbox', []);
+        .module('azSuggestBox', []);
 })();

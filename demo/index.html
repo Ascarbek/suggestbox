@@ -12,11 +12,22 @@
 
 </head>
 <body>
-
-<div az-suggestbox sb-list="c.items" sb-model="c.selectedItem">
-    <div>this will be a searchbox</div>
-    <div>this will dropdown list</div>
+<div>
+<div az-suggest-box sb-list="i in c.items" sb-model="s in c.selectedItem">
+    <div>
+        <ul sb-selection-list>
+            <li>{{s.text}}</li>
+        </ul>
+        <input placeholder="search">
+        <button>^</button>
+    </div>
+    <ul sb-drop-down>
+        <li>{{i.id}} - {{i.text}}</li>
+    </ul>
 </div>
 
+<button ng-click="c.changeSmth()">click me</button>
+
+</div>
 </body>
 </html>

@@ -5,30 +5,79 @@
     'use strict';
 
     angular
-        .module('azSuggestbox')
-        .directive('azSuggestbox', [function(){
+        .module('azSuggestBox')
+        .directive('azSuggestBox', [ function(){
             return {
                 transclude: true,
                 restrict: 'AE',
                 scope: {
                     sbList: '@',
-                    sbModel: '='
+                    sbModel: '@',
+                    sbMaxSelection: '@',
+                    sbAllowFreeText: '@',
+                    sbAllowAddItem: '@',
+                    sbBroadcastEventName: '@',
+                    sbCloseListOnSelect: '@'
                 },
                 link: function(scope, element, attrs, ctrl, transclude){
+                    scope.init();
+                },
+                controller: ['$scope', '$element', '$transclude', '$timeout', function($scope, $element, $transclude, $timeout){
 
-                    transclude(scope.$new(), function(clone, scope){
-                        console.log(clone);
-                        element.append(clone);
-                    });
+                    $scope.init = function() {
+                        $scope.isOpen = false;
 
-                    scope.$parent.$watch(attrs['sbList'], function(newval){
-                        console.log(newval);
-                    });
+                        $element.on('click', function(){
+                            $scope.isOpen = !$scope.isOpen;
+                            $scope.$apply();
+                        });
 
-                    //console.log(scope.$parent.$eval(attrs['sbModel']));
+                        //var match = $scope.sbList.match(/^\s*([\s\S]+?)\s+in\s+([\s\S]+)/);
+                        var list, model, listAlias, modelAlias;
 
+                        var listWords = $scope.sbList.split(' ');
+                        if (listWords.length == 3) {
+                            listAlias = listWords[0];
+                            list = listWords[2];
+                        }
+                        else if (listWords.length == 1) {
+                            throw "invalid sbList attribute";
+                        }
+                        else {
+                            throw "invalid sbList attribute";
+                        }
 
-                }
+                        $scope.listAlias = listAlias;
+                        $scope.list = $scope.$parent.$eval(list);
+                        $scope.$watch('list', function(){
+                            //console.log('list - ', $scope.list);
+                        }, true);
+
+                        var modelWords = $scope.sbModel.split(' ');
+                        if (modelWords.length == 3) {
+                            modelAlias = modelWords[0];
+                            model = modelWords[2];
+                        }
+                        else if (modelWords.length == 1) {
+                            throw "invalid sbModel attribute";
+                        }
+                        else {
+                            throw "invalid sbModel attribute";
+                        }
+
+                        $scope.modelAlias = modelAlias;
+                        $scope.model = $scope.$parent.$eval(model);
+                        $scope.$watch('model', function () {
+                            //console.log('model - ', $scope.model);
+                        }, true);
+
+                        $transclude($scope.$new(), function (clone, scope) {
+                            $element.append(clone);
+                        });
+
+                        //console.log($scope.$parent.$eval(attrs['sbModel']));
+                    };
+                }]
             }
         }
     ]);
