@@ -17,7 +17,8 @@
                     sbAllowFreeText: '@',
                     sbAllowAddItem: '@',
                     sbBroadcastEventName: '@',
-                    sbCloseListOnSelect: '@'
+                    sbCloseListOnSelect: '@',
+                    sbAllowDuplicates: '@'
                 },
                 link: function(scope, element, attrs, ctrl, transclude){
                     scope.init();
@@ -25,7 +26,7 @@
                 controller: ['$scope', '$element', '$transclude', '$timeout', function($scope, $element, $transclude, $timeout){
 
                     $scope.init = function() {
-                        $scope.isOpen = false;
+                        //$scope.isOpen = false; //shadow
 
                         //var match = $scope.sbList.match(/^\s*([\s\S]+?)\s+in\s+([\s\S]+)/);
                         var list, model, listAlias, modelAlias;
@@ -61,9 +62,18 @@
                         }, true);
 
                         $transclude($scope.$new(), function (clone, scope) {
+                            scope.isOpen = false;
+                            scope.$watch('isOpen', function(){
+                                if(scope.isOpen){
+                                    $element.addClass('open');
+                                }
+                                else{
+                                    $element.removeClass('open');
+                                }
+                            });
+
                             $element.append(clone);
                         });
-
                     };
                 }]
             }

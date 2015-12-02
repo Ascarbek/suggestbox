@@ -11,6 +11,32 @@
                 restrict: 'A',
                 require: 'ngModel',
                 link: function(scope, element, attrs, ctrl){
+                    element.on('keydown', function(e){
+                        console.log(e);
+                        switch (e.keyCode){
+                            case 40: {
+                                // down
+                                scope.isOpen = true;
+                                scope.highlightNextItem();
+                            } break;
+                            case 38: {
+                                // up
+                                scope.highlightPrevItem();
+                            } break;
+                            case 13: {
+                                if(scope.highlightedItem > -1){
+                                    scope.model.push(scope.list[scope.highlightedItem]);
+                                    scope.isOpen = false;
+                                    element.val('');
+                                }
+                            } break;
+                            case 27: {
+                                scope.isOpen = false;
+                            } break;
+                        }
+                        scope.$apply();
+                    });
+
                     ctrl.$viewChangeListeners.push(function() {
                         scope.isOpen = true;
 

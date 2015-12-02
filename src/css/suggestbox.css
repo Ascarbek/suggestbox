@@ -1,0 +1,74 @@
+.suggest-box
+{
+
+}
+
+.suggest-box .select
+{
+
+}
+
+.suggest-box .select .selection
+{
+
+}
+
+.suggest-box .select .selection .item
+{
+
+}
+
+.suggest-box .select .selection .item .rem-btn
+{
+
+}
+
+.suggest-box .select .input
+{
+
+}
+
+.suggest-box .select .input input
+{
+
+}
+
+.suggest-box .select .input button
+{
+
+}
+
+.suggest-box .select .input button i.fa-chevron-up
+{
+    display: none;
+}
+
+.suggest-box.open .select .input button i.fa-chevron-up
+{
+    display: block;
+}
+
+.suggest-box .select .input button i.fa-chevron-down
+{
+    display: block;
+}
+
+.suggest-box.open .select .input button i.fa-chevron-down
+{
+    display: none;
+}
+
+.suggest-box .dropdown
+{
+
+}
+
+.suggest-box .dropdown .item
+{
+
+}
+
+.suggest-box .dropdown .item.sb-list-item-highlight
+{
+
+}

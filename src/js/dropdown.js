@@ -7,7 +7,7 @@
     var uid = 0;
     angular
         .module('azSuggestBox')
-        .directive('sbDropDown', [function(){
+        .directive('sbDropdown', [function(){
             return {
                 transclude: true,
                 restrict: 'AE',
@@ -81,7 +81,31 @@
                         }
                         blocks[itemId].scope.highlight();
                         scope.highlightedItem = itemId;
-                    }
+                    };
+
+                    scope.highlightNextItem = function(){
+                        var cnt = 0, h = scope.highlightedItem;
+                        do{
+                            cnt++;
+                            h++;
+                            if(h >= blocks.length){
+                                h = 0;
+                            }
+                        } while((cnt<blocks.length)&&(blocks[h].scope.hidden));
+                        scope.highlightListItem(h);
+                    };
+
+                    scope.highlightPrevItem = function(){
+                        var cnt = 0, h = scope.highlightedItem;
+                        do{
+                            cnt++;
+                            h--;
+                            if(h <= -1){
+                                h = blocks.length - 1;
+                            }
+                        } while((cnt<blocks.length)&&(blocks[h].scope.hidden));
+                        scope.highlightListItem(h);
+                    };
                 }
             }
         }])

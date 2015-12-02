@@ -18,30 +18,27 @@
     <!-- endinject -->
 
     <!-- inject:css -->
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/suggestbox.css">
     <!-- endinject -->
 
 </head>
 <body>
 <div>
-    <div az-suggest-box sb-list="i in c.items" sb-model="s in c.selectedItem">
-        <div>
-            <ul sb-selection-list>
-                <li>{{s.name}}&nbsp;<span sb-remove-item-from-selection>X</span></li>
+    <div az-suggest-box sb-list="i in c.items" sb-model="s in c.selectedItem" class="suggest-box">
+        <div class="select">
+            <ul sb-selection-list class="selection">
+                <li class="item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></li>
             </ul>
-            <div sb-trigger-area>
+            <div sb-trigger-area class="input">
                 <input placeholder="search" sb-type-ahead ng-model="searchText">
-                <button>^</button>
+                <button><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>
             </div>
         </div>
-        <ul sb-drop-down>
-            <li>{{i.id}} - {{i.name}} - {{i.accountNumber}}</li>
+        <ul sb-dropdown class="dropdown">
+            <li class="item">{{i.name}} ({{i.email}})</li>
         </ul>
     </div>
-
-    <button ng-click="c.changeSmth()">click me</button>
-
-    <button ng-click="c.showData()">show data</button>
-
 </div>
 </body>
 </html>
