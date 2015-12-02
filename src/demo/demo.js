@@ -420,7 +420,5 @@
             ];
 
             this.selectedItem.push(this.items[1]);
-            this.selectedItem.push(this.items[2]);
-            this.selectedItem.push(this.items[3]);
         }]);
 })();

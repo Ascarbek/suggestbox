@@ -6,23 +6,27 @@
 
     angular
         .module('azSuggestBox')
-        .directive('sbSelectionList', [function(){
+        .directive('sbSelectionItem', [function(){
             return {
-                transclude: true,
+                transclude: 'element',
                 restrict: 'AE',
                 link: function(scope, element, attrs, ctrl, transclude){
+                    var parentElement = element.parent();
+
                     var blocks = [];
                     var modelAlias = scope.modelAlias;
 
                     scope.$watchCollection('model',function(){
                         for(var b=0; b<blocks.length; b++){
-                            blocks[b].clone[1].outerHTML = '';
+                            blocks[b].clone[0].outerHTML = '';
                             blocks[b].scope.$destroy();
                         }
 
                         blocks = [];
 
                         for(var i=0; i<scope.model.length; i++) {
+                            //console.log(element);
+
                             var currentModel = scope.model[i];
                             var newScope = scope.$new();
                             newScope[modelAlias] = currentModel;
@@ -32,7 +36,14 @@
                                 };
 
                                 blocks.push({scope: scope, clone: clone});
-                                element.append(clone);
+
+                                if(i == 0) {
+                                    element.after(clone);
+                                }
+                                else{
+                                    blocks[i-1].clone.after(clone);
+                                }
+
                             });
                         }
                     });

@@ -22,23 +22,30 @@
     <link rel="stylesheet" href="/css/suggestbox.css">
     <!-- endinject -->
 
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
 </head>
-<body>
-<div>
+<body style="
+font-family: 'Open Sans', sans-serif;
+">
+
+<div style="width: 500px; margin: 50px auto;">
+
     <div az-suggest-box sb-list="i in c.items" sb-model="s in c.selectedItem" class="suggest-box">
         <div class="select">
-            <ul sb-selection-list class="selection">
-                <li class="item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></li>
-            </ul>
-            <div sb-trigger-area class="input">
-                <input placeholder="search" sb-type-ahead ng-model="searchText">
-                <button><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>
+            <div class="input">
+                <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>
+                <input sb-trigger-area sb-type-ahead ng-model="searchText">
             </div>
+
+            <button sb-trigger-area><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>
         </div>
-        <ul sb-dropdown class="dropdown">
-            <li class="item">{{i.name}} ({{i.email}})</li>
+
+        <ul class="dropdown">
+            <li sb-dropdown-item class="item">{{i.name}} ({{i.email}})</li>
         </ul>
     </div>
+
 </div>
+
 </body>
 </html>

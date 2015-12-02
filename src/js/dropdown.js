@@ -7,20 +7,21 @@
     var uid = 0;
     angular
         .module('azSuggestBox')
-        .directive('sbDropdown', [function(){
+        .directive('sbDropdownItem', [function(){
             return {
-                transclude: true,
+                transclude: 'element',
                 restrict: 'AE',
                 link: function(scope, element, attrs, ctrl, transclude){
                     var blocks = [];
                     var listAlias = scope.listAlias;
+                    var parentElement = element.parent();
 
                     scope.$watch('isOpen', function(){
                         if(scope.isOpen){
-                            element.removeClass('ng-hide');
+                            parentElement.removeClass('ng-hide');
                         }
                         else{
-                            element.addClass('ng-hide');
+                            parentElement.addClass('ng-hide');
                         }
                     });
 
@@ -56,7 +57,12 @@
 
                                 blocks.push({scope: scope, clone: clone});
 
-                                element.append(clone);
+                                if(i == 0) {
+                                    element.after(clone);
+                                }
+                                else{
+                                    blocks[i-1].clone.after(clone);
+                                }
 
                                 clone.on('click', function(){
                                     scope.model.push(scope[listAlias]);
@@ -67,6 +73,10 @@
                     });
 
                     scope.hideListItem = function(itemId){
+                        if(itemId == scope.highlightedItem){
+                            blocks[itemId].scope.unHighlight();
+                            scope.highlightedItem = -1;
+                        }
                         blocks[itemId].scope.hide();
                     };
 

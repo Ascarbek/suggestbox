@@ -27,7 +27,11 @@
                                 if(scope.highlightedItem > -1){
                                     scope.model.push(scope.list[scope.highlightedItem]);
                                     scope.isOpen = false;
-                                    element.val('');
+                                    //element.val('');
+                                    scope[attrs.ngModel] = '';
+                                    for(var i=0; i<scope.list.length; i++){
+                                        scope.showListItem(i);
+                                    }
                                 }
                             } break;
                             case 27: {
