@@ -3,4 +3,7 @@
  */
 var connect = require('connect');
 var serveStatic = require('serve-static');
-connect().use(serveStatic(__dirname + '/../dist')).listen(8085);
+var path = require('path');
+var envConfig = require('./env.config.json');
+
+connect().use(serveStatic(path.resolve(__dirname, '..', envConfig.envDir) )).listen(8085);
