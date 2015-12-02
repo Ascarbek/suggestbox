@@ -27,11 +27,6 @@
                     $scope.init = function() {
                         $scope.isOpen = false;
 
-                        $element.on('click', function(){
-                            $scope.isOpen = !$scope.isOpen;
-                            $scope.$apply();
-                        });
-
                         //var match = $scope.sbList.match(/^\s*([\s\S]+?)\s+in\s+([\s\S]+)/);
                         var list, model, listAlias, modelAlias;
 
@@ -39,9 +34,6 @@
                         if (listWords.length == 3) {
                             listAlias = listWords[0];
                             list = listWords[2];
-                        }
-                        else if (listWords.length == 1) {
-                            throw "invalid sbList attribute";
                         }
                         else {
                             throw "invalid sbList attribute";
@@ -58,9 +50,6 @@
                             modelAlias = modelWords[0];
                             model = modelWords[2];
                         }
-                        else if (modelWords.length == 1) {
-                            throw "invalid sbModel attribute";
-                        }
                         else {
                             throw "invalid sbModel attribute";
                         }
@@ -75,7 +64,6 @@
                             $element.append(clone);
                         });
 
-                        //console.log($scope.$parent.$eval(attrs['sbModel']));
                     };
                 }]
             }

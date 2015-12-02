@@ -9,8 +9,11 @@
     <script src="/vendor/underscore/underscore-min.js"></script>
     <script src="/js/module.js"></script>
     <script src="/js/dropdown.js"></script>
+    <script src="/js/removeitemfromselection.js"></script>
     <script src="/js/selectionlist.js"></script>
     <script src="/js/suggestbox.js"></script>
+    <script src="/js/triggerarea.js"></script>
+    <script src="/js/typeahead.js"></script>
     <script src="/demo/demo.js"></script>
     <!-- endinject -->
 
@@ -20,20 +23,24 @@
 </head>
 <body>
 <div>
-<div az-suggest-box sb-list="i in c.items" sb-model="s in c.selectedItem">
-    <div>
-        <ul sb-selection-list>
-            <li>{{s.text}}</li>
+    <div az-suggest-box sb-list="i in c.items" sb-model="s in c.selectedItem">
+        <div>
+            <ul sb-selection-list>
+                <li>{{s.name}}&nbsp;<span sb-remove-item-from-selection>X</span></li>
+            </ul>
+            <div sb-trigger-area>
+                <input placeholder="search" sb-type-ahead ng-model="searchText">
+                <button>^</button>
+            </div>
+        </div>
+        <ul sb-drop-down>
+            <li>{{i.id}} - {{i.name}} - {{i.accountNumber}}</li>
         </ul>
-        <input placeholder="search">
-        <button>^</button>
     </div>
-    <ul sb-drop-down>
-        <li>{{i.id}} - {{i.text}}</li>
-    </ul>
-</div>
 
-<button ng-click="c.changeSmth()">click me</button>
+    <button ng-click="c.changeSmth()">click me</button>
+
+    <button ng-click="c.showData()">show data</button>
 
 </div>
 </body>

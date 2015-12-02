@@ -27,6 +27,10 @@
                             var newScope = scope.$new();
                             newScope[modelAlias] = currentModel;
                             transclude(newScope, function (clone, scope) {
+                                scope.sbRemoveItemFromSelection = function(){
+                                    scope.model.splice(scope.model.indexOf(scope[modelAlias]), 1);
+                                };
+
                                 blocks.push({scope: scope, clone: clone});
                                 element.append(clone);
                             });
