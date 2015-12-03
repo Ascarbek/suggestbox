@@ -86,6 +86,20 @@
                         }
                     };
 
+                    scope.getSearchResultsCount = function(){
+                        var res = 0;
+                        for(var i=0; i<blocks.length; i++){
+                            if(!blocks[i].scope.hidden){
+                                res++;
+                            }
+                        }
+                        return res;
+                    };
+
+                    scope.getListItemsCount = function(){
+                        return blocks.length;
+                    };
+
                     scope.highlightedItem = -1;
                     scope.highlightListItem = function(itemId){
                         if(scope.highlightedItem > -1) {
