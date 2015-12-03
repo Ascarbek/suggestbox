@@ -11,6 +11,8 @@
                 restrict: 'A',
                 require: 'ngModel',
                 link: function(scope, element, attrs, ctrl){
+                    scope[attrs.ngModel] = '';
+
                     element.on('keydown', function(e){
                         switch (e.keyCode){
                             case 40: {
@@ -30,14 +32,14 @@
 
                             case 13: {
                                 if(scope.highlightedItem > -1){
-                                    scope.model.push(scope.list[scope.highlightedItem]);
+                                    scope.model.push(scope.highlightedItem);
                                 }
                                 e.preventDefault();
                             } break;
 
                             case 27: {
                                 scope.isOpen = false;
-                                scope[attrs.ngModel] = '';
+                                scope.$emit('clearSearch');
                                 e.preventDefault();
                             } break;
 

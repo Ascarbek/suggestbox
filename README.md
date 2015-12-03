@@ -1,8 +1,11 @@
 # Angular SuggestBox
-Angular SuggestBox is an AngularJS component (directive) with provides highly customizable dropdown list (combobox, multiselect).
+Angular SuggestBox is an AngularJS component (directive) which provides highly customizable dropdown list (combobox, multiselect).
 
 # Features
-- Fully customizable layout. Directive comes without template. It uses the html layout that you provide inside an element.
+- Fully customizable layout. Directive comes without template. It uses the html layout that you provide inside the element.
+
+# Examples
+
 
 # Documentation
 
@@ -13,10 +16,10 @@ Angular SuggestBox is an AngularJS component (directive) with provides highly cu
 + sb-allow-duplicates | boolean optional false |
 + sb-allow-free-text | boolean optional false |
 + sb-allow-add-item | boolean optional false |
-+ sb-new-item-field | string optional null |
++ sb-new-item-field | string optional 'name' |
 + sb-search-field | string optional null |
 + sb-broadcast-event-name | string optional azSuggestBoxSelect |
-+ sb-close-list-on-select | boolean optional true |
++ sb-close-list-on-select | boolean optional false |
 + sb-on-selection-change | function optional |
 
 ## Directives
@@ -32,4 +35,3 @@ Angular SuggestBox is an AngularJS component (directive) with provides highly cu
 + getListItemsCount|
 
 
-# Examples

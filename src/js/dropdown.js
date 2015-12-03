@@ -38,6 +38,7 @@
                             var currentItem = scope.list[i];
                             var newScope = scope.$new();
                             newScope[listAlias] = currentItem;
+                            newScope['itemId'] = i;
                             transclude(newScope, function (clone, scope) {
                                 scope.hidden = false;
                                 scope.hide = function(){
@@ -65,7 +66,7 @@
                                 }
 
                                 clone.on('click', function(){
-                                    scope.model.push(scope[listAlias]);
+                                    scope.model.push(scope['itemId']);
                                     scope.$apply();
                                 });
                             });

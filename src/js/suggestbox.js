@@ -23,7 +23,7 @@
                     sbOnSelectionChange: '&',
                     sbAllowDuplicates: '@'
                 },
-                link: function(scope, element, attrs, ctrl, transclude){
+                link: function(scope){
                     scope.init();
                 },
                 controller: ['$scope', '$element', '$transclude', '$timeout', function($scope, $element, $transclude, $timeout){
@@ -60,8 +60,7 @@
                         $scope.modelAlias = modelAlias;
                         $scope.model = $scope.$parent.$eval(model);
 
-                        var childScope = $scope.$new();
-                        $transclude(childScope, function (clone, scope) {
+                        $transclude($scope, function (clone, scope) {
                             scope.isOpen = false;
                             scope.$watch('isOpen', function(){
                                 if(scope.isOpen){
@@ -78,7 +77,7 @@
                         $scope.$watch('model', function () {
                             $scope.sbOnSelectionChange();
                             if($scope.sbCloseListOnSelect) {
-                                childScope.isOpen = false;
+                                $scope.isOpen = false;
                                 $scope.$broadcast('clearSearch');
                             }
                         }, true);

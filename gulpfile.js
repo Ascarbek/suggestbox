@@ -18,17 +18,6 @@ gulp.task('clean', function(){
     return del(['dist']);
 });
 
-/*gulp.task('copy-dev', ['clean'], function(){
-    return es.merge(
-        gulp.src(['bower_components/!**!/!*min.js'])
-            .pipe(gulp.dest('dist/vendor')),
-        gulp.src(['src/!*.js'])
-            .pipe(gulp.dest('dist/src')),
-        gulp.src(['demo/demo.js'])
-            .pipe(gulp.dest('dist'))
-    );
-});*/
-
 gulp.task('inject-dev', ['clean'], function(){
     return gulp.src('src/demo.html')
         .pipe(inject(series(

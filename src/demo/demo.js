@@ -419,7 +419,7 @@
             this.selectedItem = [
             ];
 
-            this.selectedItem.push(this.items[1]);
+            this.selectedItem.push(1);
 
             this.change = function(){
                 console.log('hello');
