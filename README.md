@@ -1,5 +1,5 @@
 # Angular SuggestBox
-Angular SuggestBox is an AngularJS component (directive) which provides highly customizable dropdown list (combobox, multiselect).
+Angular SuggestBox is an AngularJS component (directive) which provides highly customizable dropdown list (combobox, multiselect, autocomplete).
 
 # Features
 - Fully customizable layout. Directive comes without template. It uses the html layout that you provide inside the element.
