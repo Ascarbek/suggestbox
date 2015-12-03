@@ -18,7 +18,17 @@ gulp.task('clean', function(){
     return del(['dist']);
 });
 
-gulp.task('inject-dev', ['clean'], function(){
+/*
+* Development
+* */
+
+gulp.task('build-dev', ['clean'], function(){
+    return gulp.src('server/env.config.json')
+        .pipe(replace('dist', 'src'))
+        .pipe(gulp.dest('server'));
+});
+
+gulp.task('inject-dev', ['build-dev'], function(){
     return gulp.src('src/demo.html')
         .pipe(inject(series(
             gulp.src(['src/vendor/angular/angular.min.js'], {read : false}),
@@ -34,10 +44,50 @@ gulp.task('inject-dev', ['clean'], function(){
         .pipe(gulp.dest('src'));
 });
 
-gulp.task('build-dev', ['inject-dev'], function(){
-    return gulp.src('server/env.config.json')
-        .pipe(replace('dist', 'src'))
-        .pipe(gulp.dest('server'));
+/*
+* Production
+* */
+
+gulp.task('copy-prod', ['clean'], function(){
+    return es.merge(gulp.src(['src/vendor/**/*min.js', 'src/vendor/**/*min.css'])
+        .pipe(gulp.dest('dist/vendor')),
+        gulp.src(['src/vendor/font-awesome/fonts/*'])
+            .pipe(gulp.dest('dist/vendor/font-awesome/fonts'))
+    );
 });
 
-gulp.task('default', ['build-dev']);
+gulp.task('build-prod', ['copy-prod'], function(){
+    return es.merge(gulp.src('server/env.config.json')
+        .pipe(replace('src', 'dist'))
+        .pipe(gulp.dest('server')),
+        series(
+            gulp.src(['src/js/module.js']),
+            gulp.src(['src/js/*.js', '!src/js/module.js'])
+        ).pipe(concat('suggest.box.js'))
+            .pipe(uglify())
+            .pipe(gulp.dest('dist')),
+        gulp.src('src/css/*.css')
+            .pipe(concat('suggest.box.css'))
+            .pipe(minifyCss())
+            .pipe(gulp.dest('dist')),
+        gulp.src('src/demo/demo.js')
+            .pipe(gulp.dest('dist'))
+    );
+});
+
+gulp.task('inject-prod', ['build-prod'], function(){
+    return gulp.src('src/demo.html')
+        .pipe(inject(series(
+            gulp.src(['dist/vendor/angular/angular.min.js'], {read : false}),
+            gulp.src(['dist/vendor/**/*min.js', '!dist/vendor/angular/angular.min.js'], {read : false}),
+            gulp.src(['dist/suggest.box.js'], {read: false}),
+            gulp.src(['dist/demo.js'], {read: false})
+        ), {relative : false, ignorePath: 'dist'}))
+        .pipe(inject(series(
+            gulp.src(['dist/vendor/**/*min.css'], {read: false}),
+            gulp.src(['dist/suggest.box.css'], {read: false})
+        ), {relative: false, ignorePath: 'dist'}))
+        .pipe(gulp.dest('dist'));
+});
+
+gulp.task('default', ['inject-prod']);

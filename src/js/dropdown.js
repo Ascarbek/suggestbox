@@ -34,7 +34,6 @@
                         blocks = [];
 
                         for(var i=0; i<scope.list.length; i++) {
-
                             var currentItem = scope.list[i];
                             var newScope = scope.$new();
                             newScope[listAlias] = currentItem;
@@ -102,6 +101,7 @@
                     };
 
                     scope.highlightedItem = -1;
+
                     scope.highlightListItem = function(itemId){
                         if(scope.highlightedItem > -1) {
                             blocks[scope.highlightedItem].scope.unHighlight();

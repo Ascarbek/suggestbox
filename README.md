@@ -3,11 +3,21 @@ Angular SuggestBox is an AngularJS component (directive) which provides highly c
 
 # Features
 - Fully customizable layout. Directive comes without template. It uses the html layout that you provide inside the element.
+- Multiple items selection. Customizable by _sb-max-selection_ option
+- Duplicate item selection option.
+- Allow adding
 
 # Examples
 
 
 # Documentation
+
+## Installation
+```bash
+npm install
+bower install
+gulp
+```
 
 ## Attributes
 + sb-list | Array Required |
@@ -34,4 +44,18 @@ Angular SuggestBox is an AngularJS component (directive) which provides highly c
 + getSearchResultsCount|
 + getListItemsCount|
 
+# Component Based Development
+Since SuggestBox exposes its layout, it doesn't follow component based paradigm.
 
+Best practise would be to wrap it inside your component like this:
+
+```javascript
+angular
+    .module('myModule', ['azSuggestBox'])
+    .directive('myComponent', [function(){
+        return {
+            restrict: 'E',
+            template: ''
+        }
+    }])
+```

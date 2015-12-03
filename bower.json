@@ -1,13 +1,17 @@
 {
-  "name": "suggestbox",
-  "description": "angular suggestbox",
-  "main": "index.js",
+  "name": "angular-suggestbox",
+    "version": "0.1.1",
+  "description": "angular suggestbox, multiselect dropdown with customizable layout",
+  "main": "server/server.js",
   "authors": [
     "ascarbek@gmail.com"
   ],
   "license": "MIT",
   "keywords": [
-    "dropdown"
+      "angular",
+    "dropdown",
+      "multiselect",
+      "combobox"
   ],
   "homepage": "https://github.com/Ascarbek/suggestbox",
   "moduleType": [],
