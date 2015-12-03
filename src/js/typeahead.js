@@ -46,7 +46,7 @@
                             case 8: {
                                 //backspace
                                 if(scope[attrs.ngModel].length == 0){
-                                    scope.model.pop();
+                                    scope.showListItem(scope.model.pop());
                                 }
                             } break;
                         }
@@ -58,6 +58,11 @@
                         for(var i=0; i<scope.list.length; i++){
                             scope.showListItem(i);
                         }
+                        if(!scope.sbAllowDuplicates) {
+                            scope.model.forEach(function (i) {
+                                scope.hideListItem(i);
+                            });
+                        }
                     });
 
                     ctrl.$viewChangeListeners.push(function() {
@@ -65,11 +70,12 @@
 
                         var text = scope[attrs.ngModel].toLowerCase();
 
-                        var foundItems = [];
+                        var foundCount = 0, lastId = -1;
                         for(var i=0; i<scope.list.length; i++){
                             if(text.length == 0){
                                 scope.showListItem(i);
-                                foundItems.push(i);
+                                foundCount++;
+                                lastId = i;
                             }
                             else{
                                 var listItem = scope.list[i];
@@ -89,7 +95,8 @@
 
                                             if(obj.search(new RegExp(text)) > -1){
                                                 scope.showListItem(i);
-                                                foundItems.push(i);
+                                                foundCount++;
+                                                lastId = i;
                                                 break;
                                             }
                                             else{
@@ -101,7 +108,8 @@
                                 else if(typeof listItem == 'string'){
                                     if(listItem.toLowerCase().search(new RegExp(text)) > -1){
                                         scope.showListItem(i);
-                                        foundItems.push(i);
+                                        foundCount++;
+                                        lastId = i;
                                         break;
                                     }
                                     else{
@@ -111,7 +119,8 @@
                                 else if(typeof listItem == 'number'){
                                     if(listItem.toString().search(new RegExp(text)) > -1){
                                         scope.showListItem(i);
-                                        foundItems.push(i);
+                                        foundCount++;
+                                        lastId = i;
                                         break;
                                     }
                                     else{
@@ -120,8 +129,19 @@
                                 }
                             }
                         }
-                        if(foundItems.length == 1){
-                            scope.highlightListItem(foundItems[0]);
+
+                        if(!scope.sbAllowDuplicates) {
+                            scope.model.forEach(function (i) {
+                                scope.hideListItem(i);
+                                if (lastId == i) {
+                                    lastId = -1;
+                                    foundCount = 2;
+                                }
+                            });
+                        }
+
+                        if(foundCount == 1){
+                            scope.highlightListItem(lastId);
                         }
                     });
                 }

@@ -14,14 +14,14 @@
                     sbList: '@',
                     sbModel: '@',
                     sbMaxSelection: '@',
-                    sbAllowFreeText: '@',
-                    sbAllowAddItem: '@',
+                    sbAllowFreeText: '=',
+                    sbAllowAddItem: '=',
                     sbNewItemField: '@',
                     sbSearchField: '@',
                     sbBroadcastEventName: '@',
                     sbCloseListOnSelect: '=',
                     sbOnSelectionChange: '&',
-                    sbAllowDuplicates: '@'
+                    sbAllowDuplicates: '='
                 },
                 link: function(scope){
                     scope.init();
@@ -79,6 +79,12 @@
                             if($scope.sbCloseListOnSelect) {
                                 $scope.isOpen = false;
                                 $scope.$broadcast('clearSearch');
+                            }
+
+                            if(!$scope.sbAllowDuplicates) {
+                                $scope.model.forEach(function (i) {
+                                    $scope.hideListItem(i);
+                                });
                             }
                         }, true);
 

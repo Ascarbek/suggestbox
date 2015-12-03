@@ -32,6 +32,7 @@
                             newScope['itemId'] = scope.model[i];
                             transclude(newScope, function (clone, scope) {
                                 scope.sbRemoveItemFromSelection = function(){
+                                    scope.showListItem(scope['itemId']);
                                     scope.model.splice(scope.model.indexOf(scope['itemId']), 1);
                                 };
 
