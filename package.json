@@ -1,5 +1,5 @@
 {
-  "name": "suggestbox",
+  "name": "angular-suggestbox",
   "version": "0.0.1",
   "description": "angular suggestbox",
   "main": "server/server.js",
