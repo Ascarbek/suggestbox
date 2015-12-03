@@ -30,7 +30,7 @@ font-family: 'Open Sans', sans-serif;
 
 <div style="width: 500px; margin: 50px auto;">
 
-    <div az-suggest-box sb-list="i in c.items" sb-model="s in c.selectedItem" class="suggest-box">
+    <div az-suggest-box sb-list="i in c.items" sb-model="s in c.selectedItem" class="suggest-box" sb-on-selection-change="c.change()" sb-close-list-on-select="false">
         <div class="select">
             <div class="input">
                 <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>

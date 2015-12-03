@@ -420,5 +420,9 @@
             ];
 
             this.selectedItem.push(this.items[1]);
+
+            this.change = function(){
+                console.log('hello');
+            }
         }]);
 })();

@@ -16,8 +16,11 @@
                     sbMaxSelection: '@',
                     sbAllowFreeText: '@',
                     sbAllowAddItem: '@',
+                    sbNewItemField: '@',
+                    sbSearchField: '@',
                     sbBroadcastEventName: '@',
-                    sbCloseListOnSelect: '@',
+                    sbCloseListOnSelect: '=',
+                    sbOnSelectionChange: '&',
                     sbAllowDuplicates: '@'
                 },
                 link: function(scope, element, attrs, ctrl, transclude){
@@ -27,6 +30,8 @@
 
                     $scope.init = function() {
                         //$scope.isOpen = false; //shadow
+
+                        $scope.sbCloseListOnSelect = $scope.sbCloseListOnSelect || false;
 
                         //var match = $scope.sbList.match(/^\s*([\s\S]+?)\s+in\s+([\s\S]+)/);
                         var list, model, listAlias, modelAlias;
@@ -42,9 +47,6 @@
 
                         $scope.listAlias = listAlias;
                         $scope.list = $scope.$parent.$eval(list);
-                        $scope.$watch('list', function(){
-                            //console.log('list - ', $scope.list);
-                        }, true);
 
                         var modelWords = $scope.sbModel.split(' ');
                         if (modelWords.length == 3) {
@@ -57,11 +59,9 @@
 
                         $scope.modelAlias = modelAlias;
                         $scope.model = $scope.$parent.$eval(model);
-                        $scope.$watch('model', function () {
-                            //console.log('model - ', $scope.model);
-                        }, true);
 
-                        $transclude($scope.$new(), function (clone, scope) {
+                        var childScope = $scope.$new();
+                        $transclude(childScope, function (clone, scope) {
                             scope.isOpen = false;
                             scope.$watch('isOpen', function(){
                                 if(scope.isOpen){
@@ -74,6 +74,18 @@
 
                             $element.append(clone);
                         });
+
+                        $scope.$watch('model', function () {
+                            $scope.sbOnSelectionChange();
+                            if($scope.sbCloseListOnSelect) {
+                                childScope.isOpen = false;
+                                $scope.$broadcast('clearSearch');
+                            }
+                        }, true);
+
+                        $scope.$watch('list', function(){
+                            //console.log('list - ', $scope.list);
+                        }, true);
                     };
                 }]
             }

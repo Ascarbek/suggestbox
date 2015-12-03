@@ -64,12 +64,12 @@
 
 .suggest-box .select .input .selection-item .rem-btn
 {
-
+    cursor: pointer;
 }
 
 .suggest-box .select input
 {
-    flex: 1;
+    flex: 1 1 60px;
 }
 
 .suggest-box .select button
@@ -104,7 +104,8 @@
     overflow: auto;
     position: absolute;
     top: 100%;
-    width: 100%;
+    left: 0;
+    right: 0;
     border: 1px solid rgba(0,0,0,.15);
     padding: 5px 0;
     box-shadow: 0 6px 12px rgba(0,0,0,.175);

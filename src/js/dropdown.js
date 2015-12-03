@@ -81,7 +81,9 @@
                     };
 
                     scope.showListItem = function(itemId){
-                        blocks[itemId].scope.show();
+                        if(blocks[itemId]) {
+                            blocks[itemId].scope.show();
+                        }
                     };
 
                     scope.highlightedItem = -1;
