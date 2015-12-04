@@ -14,14 +14,15 @@
                     sbList: '@',
                     sbModel: '@',
                     sbMaxSelection: '@',
+                    sbAllowDuplicates: '=',
                     sbAllowFreeText: '=',
                     sbAllowAddItem: '=',
                     sbNewItemField: '@',
                     sbSearchField: '@',
                     sbBroadcastEventName: '@',
+                    sbSelectedListItemClass: '@',
                     sbCloseListOnSelect: '=',
-                    sbOnSelectionChange: '&',
-                    sbAllowDuplicates: '='
+                    sbOnSelectionChange: '&'
                 },
                 link: function(scope){
                     scope.init();
@@ -32,6 +33,7 @@
                         //$scope.isOpen = false; //shadow
 
                         $scope.sbCloseListOnSelect = $scope.sbCloseListOnSelect || false;
+                        $scope.sbSelectedListItemClass = $scope.sbSelectedListItemClass || 'ng-hide';
 
                         //var match = $scope.sbList.match(/^\s*([\s\S]+?)\s+in\s+([\s\S]+)/);
                         var list, model, listAlias, modelAlias;

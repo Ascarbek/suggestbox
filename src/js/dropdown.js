@@ -37,15 +37,19 @@
                             var currentItem = scope.list[i];
                             var newScope = scope.$new();
                             newScope[listAlias] = currentItem;
-                            newScope['itemId'] = i;
+
+                            newScope.$index = i; // reserved word, need to check list alias for collision
+                            newScope.$first = i==0;
+                            newScope.$last = i==scope.list.length-1;
+
                             transclude(newScope, function (clone, scope) {
                                 scope.hidden = false;
                                 scope.hide = function(){
-                                    angular.element(clone).addClass('ng-hide');
+                                    angular.element(clone).addClass(scope.sbSelectedListItemClass);
                                     scope.hidden = true;
                                 };
                                 scope.show = function(){
-                                    angular.element(clone).removeClass('ng-hide');
+                                    angular.element(clone).removeClass(scope.sbSelectedListItemClass);
                                     scope.hidden = false;
                                 };
                                 scope.highlight = function(){
@@ -57,15 +61,15 @@
 
                                 blocks.push({scope: scope, clone: clone});
 
-                                if(i == 0) {
+                                if(scope.$index == 0) {
                                     element.after(clone);
                                 }
                                 else{
-                                    blocks[i-1].clone.after(clone);
+                                    blocks[scope.$index-1].clone.after(clone);
                                 }
 
                                 clone.on('click', function(){
-                                    scope.model.push(scope['itemId']);
+                                    scope.model.push(scope.$index);
                                     scope.$apply();
                                 });
                             });

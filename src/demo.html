@@ -6,7 +6,6 @@
 
     <!-- inject:js -->
     <script src="/vendor/angular/angular.min.js"></script>
-    <script src="/vendor/underscore/underscore-min.js"></script>
     <script src="/js/module.js"></script>
     <script src="/js/dropdown.js"></script>
     <script src="/js/removeitemfromselection.js"></script>
@@ -41,7 +40,7 @@ font-family: 'Open Sans', sans-serif;
         </div>
 
         <ul class="dropdown">
-            <li sb-dropdown-item class="item">{{i.name}} ({{i.email}})</li>
+            <li sb-dropdown-item class="item">{{$index+1}}. {{i.name}} ({{i.email}})</li>
         </ul>
     </div>
 

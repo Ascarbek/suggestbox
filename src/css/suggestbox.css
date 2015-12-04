@@ -43,7 +43,7 @@
     align-items: center;
     flex-wrap: wrap;
     flex: 1;
-    padding: 6px;
+    padding: 5px 8px;
     border-right: #ccc 1px solid;
 }
 
@@ -56,8 +56,8 @@
     color: #999999;
     background-color: #f3f3f3;
     border: #ddd 1px solid;
-    padding: 0 5px;
-    margin: 2px 4px;
+    padding: 1px 5px;
+    margin: 2px 6px 2px 0;
     font-size: 12px;
     border-radius: 3px;
 }

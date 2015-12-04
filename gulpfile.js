@@ -63,11 +63,11 @@ gulp.task('build-prod', ['copy-prod'], function(){
         series(
             gulp.src(['src/js/module.js']),
             gulp.src(['src/js/*.js', '!src/js/module.js'])
-        ).pipe(concat('suggest.box.js'))
+        ).pipe(concat('suggest.box.min.js'))
             .pipe(uglify())
             .pipe(gulp.dest('dist')),
         gulp.src('src/css/*.css')
-            .pipe(concat('suggest.box.css'))
+            .pipe(concat('suggest.box.min.css'))
             .pipe(minifyCss())
             .pipe(gulp.dest('dist')),
         gulp.src('src/demo/demo.js')
