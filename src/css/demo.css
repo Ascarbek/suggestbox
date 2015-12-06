@@ -1,0 +1,10 @@
+.example-block
+{
+    width: 500px;
+    margin: 50px auto;
+}
+
+.example-block .title
+{
+    font-family: 'Slabo 27px', serif;
+}

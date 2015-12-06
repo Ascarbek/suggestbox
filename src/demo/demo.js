@@ -412,13 +412,13 @@
                 }
             ];
 
-            this.selectedItem = [
-            ];
+            this.selectedItem1 = [];
+            this.selectedItem1.push(1);
 
-            this.selectedItem.push(1);
+            this.selectedItem2 = [];
 
-            this.change = function(){
+            /*this.change = function(){
                 console.log('something changed.');
-            }
+            }*/
         }]);
 })();

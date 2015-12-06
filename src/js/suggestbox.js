@@ -13,12 +13,13 @@
                 scope: {
                     sbList: '@',
                     sbModel: '@',
-                    sbMaxSelection: '@',
+                    sbMaxSelection: '=',
                     sbAllowDuplicates: '=',
                     sbAllowFreeText: '=',
                     sbAllowAddItem: '=',
                     sbNewItemField: '@',
                     sbSearchField: '@',
+                    sbSelectFirstListItem: '=',
                     sbBroadcastEventName: '@',
                     sbSelectedListItemClass: '@',
                     sbCloseListOnSelect: '=',
@@ -31,9 +32,22 @@
 
                     $scope.init = function() {
                         //$scope.isOpen = false; //shadow
-
-                        $scope.sbCloseListOnSelect = $scope.sbCloseListOnSelect || false;
+                        if($scope.sbList === undefined){
+                            throw "sb-list attribute must be set";
+                        }
+                        if($scope.sbModel === undefined){
+                            throw "sb-model attribute must be set";
+                        }
+                        $scope.sbMaxSelection = $scope.sbMaxSelection || 0;
+                        $scope.sbAllowDuplicates = $scope.sbAllowDuplicates || false;
+                        $scope.sbAllowFreeText = $scope.sbAllowFreeText || false;
+                        $scope.sbAllowAddItem = $scope.sbAllowAddItem || false;
+                        $scope.sbNewItemField = $scope.sbNewItemField || 'name';
+                        $scope.sbSearchField = $scope.sbSearchField || false;
+                        $scope.sbSelectFirstListItem = $scope.sbSelectFirstListItem || false;
+                        $scope.sbBroadcastEventName = $scope.sbBroadcastEventName || 'azSuggestBoxSelect';
                         $scope.sbSelectedListItemClass = $scope.sbSelectedListItemClass || 'ng-hide';
+                        $scope.sbCloseListOnSelect = $scope.sbCloseListOnSelect || false;
 
                         //var match = $scope.sbList.match(/^\s*([\s\S]+?)\s+in\s+([\s\S]+)/);
                         var list, model, listAlias, modelAlias;
@@ -85,7 +99,7 @@
 
                             if(!$scope.sbAllowDuplicates) {
                                 $scope.model.forEach(function (i) {
-                                    $scope.hideListItem(i);
+                                    $scope.selectListItem(i);
                                 });
                             }
                         }, true);

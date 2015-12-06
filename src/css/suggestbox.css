@@ -110,6 +110,8 @@
     padding: 5px 0;
     box-shadow: 0 6px 12px rgba(0,0,0,.175);
     border-radius: 4px;
+    background-color: #ffffff;
+    z-index: 1;
 }
 
 .suggest-box .dropdown .item
@@ -121,6 +123,12 @@
 .suggest-box .dropdown .item:hover
 {
     background-color: #F5F5F5;
+}
+
+.suggest-box .dropdown .item.sb-list-item-checked
+{
+    background-color: #8493a8;
+    color: #ffffff;
 }
 
 .suggest-box .dropdown .item.sb-list-item-highlight

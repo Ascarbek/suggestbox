@@ -32,7 +32,7 @@
 
                             case 13: {
                                 if(scope.highlightedItem > -1){
-                                    scope.model.push(scope.highlightedItem);
+                                    scope.addItemToSelection(scope.highlightedItem);
                                 }
                                 e.preventDefault();
                             } break;
@@ -46,7 +46,7 @@
                             case 8: {
                                 //backspace
                                 if(scope[attrs.ngModel].length == 0){
-                                    scope.showListItem(scope.model.pop());
+                                    scope.unSelectListItem(scope.model.pop());
                                 }
                             } break;
                         }
@@ -60,7 +60,7 @@
                         }
                         if(!scope.sbAllowDuplicates) {
                             scope.model.forEach(function (i) {
-                                scope.hideListItem(i);
+                                scope.selectListItem(i);
                             });
                         }
                     });
@@ -132,7 +132,7 @@
 
                         if(!scope.sbAllowDuplicates) {
                             scope.model.forEach(function (i) {
-                                scope.hideListItem(i);
+                                scope.selectListItem(i);
                                 if (lastId == i) {
                                     lastId = -1;
                                     foundCount = 2;

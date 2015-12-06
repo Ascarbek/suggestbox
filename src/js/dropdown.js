@@ -45,12 +45,21 @@
                             transclude(newScope, function (clone, scope) {
                                 scope.hidden = false;
                                 scope.hide = function(){
-                                    angular.element(clone).addClass(scope.sbSelectedListItemClass);
+                                    angular.element(clone).addClass('ng-hide');
                                     scope.hidden = true;
                                 };
                                 scope.show = function(){
-                                    angular.element(clone).removeClass(scope.sbSelectedListItemClass);
+                                    angular.element(clone).removeClass('ng-hide');
                                     scope.hidden = false;
+                                };
+                                scope.selected = false;
+                                scope.select = function(){
+                                    angular.element(clone).addClass(scope.sbSelectedListItemClass);
+                                    scope.selected = true;
+                                };
+                                scope.unSelect = function(){
+                                    angular.element(clone).removeClass(scope.sbSelectedListItemClass);
+                                    scope.selected = false;
                                 };
                                 scope.highlight = function(){
                                     angular.element(clone).addClass('sb-list-item-highlight');
@@ -69,12 +78,33 @@
                                 }
 
                                 clone.on('click', function(){
-                                    scope.model.push(scope.$index);
+                                    scope.addItemToSelection(scope.$index);
                                     scope.$apply();
                                 });
                             });
                         }
                     });
+
+                    scope.addItemToSelection = function(itemId){
+                        if(scope.sbAllowDuplicates){
+                            scope.model.push(itemId);
+                        }
+                        else {
+                            var isFound = false;
+
+                            for(var i=0; i<scope.model.length; i++){
+                                if(scope.model[i] === itemId){
+                                    scope.model.splice(i, 1);
+                                    scope.unSelectListItem(itemId);
+                                    isFound = true;
+                                    break;
+                                }
+                            }
+                            if(!isFound){
+                                scope.model.push(itemId);
+                            }
+                        }
+                    };
 
                     scope.hideListItem = function(itemId){
                         if(itemId == scope.highlightedItem){
@@ -87,6 +117,20 @@
                     scope.showListItem = function(itemId){
                         if(blocks[itemId]) {
                             blocks[itemId].scope.show();
+                        }
+                    };
+
+                    scope.unSelectListItem = function(itemId){
+                        blocks[itemId].scope.unSelect();
+                    };
+
+                    scope.selectListItem = function(itemId){
+                        if(blocks[itemId]) {
+                            if(itemId == scope.highlightedItem){
+                                blocks[itemId].scope.unHighlight();
+                                scope.highlightedItem = -1;
+                            }
+                            blocks[itemId].scope.select();
                         }
                     };
 

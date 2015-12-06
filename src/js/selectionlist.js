@@ -29,20 +29,20 @@
                             var currentModel = scope.list[scope.model[i]];
                             var newScope = scope.$new();
                             newScope[modelAlias] = currentModel;
-                            newScope['itemId'] = scope.model[i];
+                            newScope.itemId = scope.model[i];
                             transclude(newScope, function (clone, scope) {
                                 scope.sbRemoveItemFromSelection = function(){
-                                    scope.showListItem(scope['itemId']);
-                                    scope.model.splice(scope.model.indexOf(scope['itemId']), 1);
+                                    scope.unSelectListItem(scope.itemId);
+                                    scope.model.splice(scope.model.indexOf(scope.itemId), 1);
                                 };
 
                                 blocks.push({scope: scope, clone: clone});
 
-                                if(i == 0) {
+                                if(scope.itemId == 0) {
                                     element.after(clone);
                                 }
                                 else{
-                                    blocks[i-1].clone.after(clone);
+                                    blocks[scope.itemId-1].clone.after(clone);
                                 }
 
                             });
