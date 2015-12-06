@@ -30,6 +30,7 @@
                             var newScope = scope.$new();
                             newScope[modelAlias] = currentModel;
                             newScope.itemId = scope.model[i];
+                            newScope.$index = i;
                             transclude(newScope, function (clone, scope) {
                                 scope.sbRemoveItemFromSelection = function(){
                                     scope.unSelectListItem(scope.itemId);
@@ -38,11 +39,11 @@
 
                                 blocks.push({scope: scope, clone: clone});
 
-                                if(scope.itemId == 0) {
+                                if(scope.$index == 0) {
                                     element.after(clone);
                                 }
                                 else{
-                                    blocks[scope.itemId-1].clone.after(clone);
+                                    blocks[scope.$index-1].clone.after(clone);
                                 }
 
                             });

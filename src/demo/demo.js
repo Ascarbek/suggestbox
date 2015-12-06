@@ -415,7 +415,8 @@
             this.selectedItem1 = [];
             this.selectedItem1.push(1);
 
-            this.selectedItem2 = [];
+            this.selectedItem2 = [4,5,6];
+            this.selectedItem3 = [43,23];
 
             /*this.change = function(){
                 console.log('something changed.');

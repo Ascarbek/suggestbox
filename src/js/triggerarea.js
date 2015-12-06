@@ -11,10 +11,23 @@
                 restrict: 'AE',
                 link: function(scope, element, attrs){
                     element.on('click', function(){
-                        scope.isOpen = !scope.isOpen;
+                        scope.sendBroadcast();
+
+                        if(scope.dropDownState()){
+                            scope.closeDropDown();
+                        }
+                        else{
+                            scope.openDropDown();
+                        }
                         scope.$apply();
                     });
-                }
+                },
+                controller: ['$rootScope', '$scope', function($rootScope, $scope){
+                    $scope.sendBroadcast = function(){
+                        $scope.weSentBroadcast = true;
+                        $rootScope.$broadcast($scope.sbBroadcastEventName);
+                    };
+                }]
             }
         }])
 })();

@@ -52,6 +52,7 @@
                                     angular.element(clone).removeClass('ng-hide');
                                     scope.hidden = false;
                                 };
+
                                 scope.selected = false;
                                 scope.select = function(){
                                     angular.element(clone).addClass(scope.sbSelectedListItemClass);
@@ -61,6 +62,7 @@
                                     angular.element(clone).removeClass(scope.sbSelectedListItemClass);
                                     scope.selected = false;
                                 };
+
                                 scope.highlight = function(){
                                     angular.element(clone).addClass('sb-list-item-highlight');
                                 };
@@ -78,14 +80,14 @@
                                 }
 
                                 clone.on('click', function(){
-                                    scope.addItemToSelection(scope.$index);
+                                    scope.toggleItemSelection(scope.$index);
                                     scope.$apply();
                                 });
                             });
                         }
                     });
 
-                    scope.addItemToSelection = function(itemId){
+                    scope.toggleItemSelection = function(itemId){
                         if(scope.sbAllowDuplicates){
                             scope.model.push(itemId);
                         }
@@ -147,6 +149,8 @@
                     scope.getListItemsCount = function(){
                         return blocks.length;
                     };
+
+                    /**/
 
                     scope.highlightedItem = -1;
 

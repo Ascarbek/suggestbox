@@ -17,7 +17,7 @@
                         switch (e.keyCode){
                             case 40: {
                                 // down
-                                scope.isOpen = true;
+                                scope.openDropDown();
                                 scope.highlightNextItem();
 
                                 e.preventDefault();
@@ -32,13 +32,13 @@
 
                             case 13: {
                                 if(scope.highlightedItem > -1){
-                                    scope.addItemToSelection(scope.highlightedItem);
+                                    scope.toggleItemSelection(scope.highlightedItem);
                                 }
                                 e.preventDefault();
                             } break;
 
                             case 27: {
-                                scope.isOpen = false;
+                                scope.closeDropDown();
                                 scope.$emit('clearSearch');
                                 e.preventDefault();
                             } break;
@@ -66,7 +66,7 @@
                     });
 
                     ctrl.$viewChangeListeners.push(function() {
-                        scope.isOpen = true;
+                        scope.openDropDown();
 
                         var text = scope[attrs.ngModel].toLowerCase();
 

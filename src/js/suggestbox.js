@@ -28,7 +28,7 @@
                 link: function(scope){
                     scope.init();
                 },
-                controller: ['$scope', '$element', '$transclude', '$timeout', function($scope, $element, $transclude, $timeout){
+                controller: ['$window', '$rootScope', '$scope', '$element', '$transclude', '$timeout', function($window, $rootScope, $scope, $element, $transclude, $timeout){
 
                     $scope.init = function() {
                         //$scope.isOpen = false; //shadow
@@ -48,6 +48,8 @@
                         $scope.sbBroadcastEventName = $scope.sbBroadcastEventName || 'azSuggestBoxSelect';
                         $scope.sbSelectedListItemClass = $scope.sbSelectedListItemClass || 'ng-hide';
                         $scope.sbCloseListOnSelect = $scope.sbCloseListOnSelect || false;
+
+                        $scope.weSentBroadcast = false;
 
                         //var match = $scope.sbList.match(/^\s*([\s\S]+?)\s+in\s+([\s\S]+)/);
                         var list, model, listAlias, modelAlias;
@@ -76,8 +78,20 @@
                         $scope.modelAlias = modelAlias;
                         $scope.model = $scope.$parent.$eval(model);
 
+                        $scope.closeDropDown = function(){
+                            $scope.isOpen = false;
+                        };
+
+                        $scope.openDropDown = function(){
+                            $scope.isOpen = true;
+                        };
+
+                        $scope.dropDownState = function(){
+                            return $scope.isOpen;
+                        };
+
                         $transclude($scope, function (clone, scope) {
-                            scope.isOpen = false;
+                            scope.closeDropDown();
                             scope.$watch('isOpen', function(){
                                 if(scope.isOpen){
                                     $element.addClass('open');
@@ -93,7 +107,7 @@
                         $scope.$watch('model', function () {
                             $scope.sbOnSelectionChange();
                             if($scope.sbCloseListOnSelect) {
-                                $scope.isOpen = false;
+                                $scope.closeDropDown();
                                 $scope.$broadcast('clearSearch');
                             }
 
@@ -107,6 +121,32 @@
                         $scope.$watch('list', function(){
                             //console.log('list - ', $scope.list);
                         }, true);
+
+                        $window.onclick = function(e){
+                            var el = e.target;
+                            var isClickedOnSB = false;
+                            do{
+                                if(el.attributes){
+                                    if((el.attributes['az-suggest-box'])||(el.attributes['sb-selection-item'])||(el.attributes['sb-trigger-area'])){
+                                        isClickedOnSB = true;
+                                        break;
+                                    }
+                                }
+                                el = el.parentNode;
+
+                            } while(el != undefined);
+                            if(!isClickedOnSB){
+                                $rootScope.$broadcast($scope.sbBroadcastEventName);
+                            }
+                        };
+
+                        $scope.$on($scope.sbBroadcastEventName, function(){
+                            if(!$scope.weSentBroadcast) {
+                                $scope.closeDropDown();
+                            }
+                            $scope.weSentBroadcast = false;
+                            $scope.$apply();
+                        });
                     };
                 }]
             }
