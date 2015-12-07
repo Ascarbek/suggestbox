@@ -15,6 +15,7 @@
                     var blocks = [];
                     var listAlias = scope.listAlias;
                     var parentElement = element.parent();
+                    scope.highlightedItem = -1;
 
                     scope.$watch('isOpen', function(){
                         if(scope.isOpen){
@@ -27,7 +28,7 @@
 
                     scope.$watchCollection('list',function(){
                         for(var b=0; b<blocks.length; b++){
-                            blocks[b].clone[1].outerHTML = '';
+                            blocks[b].clone[0].outerHTML = '';
                             blocks[b].scope.$destroy();
                         }
 
@@ -88,6 +89,16 @@
                     });
 
                     scope.toggleItemSelection = function(itemId){
+                        if(scope.sbMaxSelection == 1){
+                            scope.model.forEach(function(m){
+                                if(typeof m == 'number'){
+                                    scope.unSelectListItem(m);
+                                }
+                            });
+                            scope.model = [];
+                            scope.$apply();
+                        }
+
                         if(scope.sbAllowDuplicates){
                             scope.model.push(itemId);
                         }
@@ -105,6 +116,13 @@
                             if(!isFound){
                                 scope.model.push(itemId);
                             }
+                        }
+                    };
+
+                    scope.highlightNone = function(){
+                        if(scope.highlightedItem > -1){
+                            blocks[scope.highlightedItem].scope.unHighlight();
+                            scope.highlightedItem = -1;
                         }
                     };
 
@@ -130,7 +148,7 @@
                         if(blocks[itemId]) {
                             if(itemId == scope.highlightedItem){
                                 blocks[itemId].scope.unHighlight();
-                                scope.highlightedItem = -1;
+                                //scope.highlightedItem = -1;
                             }
                             blocks[itemId].scope.select();
                         }
@@ -149,10 +167,6 @@
                     scope.getListItemsCount = function(){
                         return blocks.length;
                     };
-
-                    /**/
-
-                    scope.highlightedItem = -1;
 
                     scope.highlightListItem = function(itemId){
                         if(scope.highlightedItem > -1) {

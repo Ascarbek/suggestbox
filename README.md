@@ -61,7 +61,7 @@ bower install angular-suggestbox
 + sb-selection-item| selected items repeater
 + sb-remove-item-from-selection| button to remove item from selection must be placed inside sb-selection-item
 + sb-trigger-area|
-+ sb-type-ahead| handles search throw list items. must be placed on input element. requires ng-model to be set on any name
++ sb-type-ahead| handles search throw list items. must be placed on input element
 + sb-dropdown-item | dropdown item repeater
 
 ## Functions
