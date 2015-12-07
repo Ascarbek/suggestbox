@@ -9,52 +9,97 @@
         .directive('sbTypeAhead', [function(){
             return {
                 restrict: 'A',
-                require: 'ngModel',
                 link: function(scope, element, attrs, ctrl){
-                    scope[attrs.ngModel] = '';
 
                     element.on('keydown', function(e){
-                        switch (e.keyCode){
-                            case 40: {
+                        switch (e.keyCode) {
+                            case 40:
+                            {
                                 // down
                                 scope.openDropDown();
                                 scope.highlightNextItem();
 
                                 e.preventDefault();
-                            } break;
+                            }
+                                break;
 
-                            case 38: {
+                            case 38:
+                            {
                                 // up
                                 scope.highlightPrevItem();
 
                                 e.preventDefault();
-                            } break;
+                            }
+                                break;
 
-                            case 13: {
-                                if(scope.highlightedItem > -1){
+                            case 13:
+                            case 9:
+                            {
+                                if (scope.highlightedItem > -1) {
                                     scope.toggleItemSelection(scope.highlightedItem);
                                 }
-                                e.preventDefault();
-                            } break;
+                                else {
+                                    if(scope.sbAllowFreeText){
+                                        if(!scope.sbAllowAddItem) {
+                                            scope.model.push(element.val());
+                                        }
+                                        else{
 
-                            case 27: {
+                                            var newObj = {};
+                                            newObj[scope.sbNewItemField] = element.val();
+
+                                            scope.list.splice(0, 0, newObj);
+
+                                            if(scope.sbMaxSelection == 1){
+                                                scope.model.splice(0, scope.model.length);
+                                                scope.toggleItemSelection(0);
+                                            }
+                                            else {
+                                                for (var m = 0; m < scope.model.length; m++) {
+                                                    if (typeof scope.model[m] == 'number') {
+                                                        scope.model[m]++;
+                                                    }
+                                                }
+                                                scope.toggleItemSelection(0);
+                                            }
+                                        }
+                                    }
+                                    else{
+
+                                    }
+                                }
+                                e.preventDefault();
+                            }
+                                break;
+
+                            case 27:
+                            {
                                 scope.closeDropDown();
                                 scope.$emit('clearSearch');
                                 e.preventDefault();
-                            } break;
+                            }
+                                break;
 
-                            case 8: {
+                            case 8:
+                            {
                                 //backspace
-                                if(scope[attrs.ngModel].length == 0){
+                                if (element.val().length == 0) {
                                     scope.unSelectListItem(scope.model.pop());
                                 }
-                            } break;
+                            }
+                                break;
                         }
+
                         scope.$apply();
                     });
 
+                    element.on('input', function(){
+                        performSearch();
+                    });
+
                     scope.$on('clearSearch', function(){
-                        scope[attrs.ngModel] = '';
+                        element.val('');
+
                         for(var i=0; i<scope.list.length; i++){
                             scope.showListItem(i);
                         }
@@ -65,12 +110,15 @@
                         }
                     });
 
-                    ctrl.$viewChangeListeners.push(function() {
+                    function performSearch(){
                         scope.openDropDown();
 
-                        var text = scope[attrs.ngModel].toLowerCase();
+                        var text = element.val().toLowerCase();
 
                         var foundCount = 0, lastId = -1;
+
+                        scope.highlightNone();
+
                         for(var i=0; i<scope.list.length; i++){
                             if(text.length == 0){
                                 scope.showListItem(i);
@@ -143,7 +191,7 @@
                         if(foundCount == 1){
                             scope.highlightListItem(lastId);
                         }
-                    });
+                    }
                 }
             }
         }]);

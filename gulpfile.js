@@ -36,11 +36,11 @@ gulp.task('inject-dev', ['build-dev'], function(){
             gulp.src(['src/js/module.js'], {read: false}),
             gulp.src(['src/js/*.js', '!src/js/module.js'], {read: false}),
             gulp.src(['src/demo/demo.js'], {read: false})
-        ), {relative : false, ignorePath: 'src'}))
+        ), {relative : true, ignorePath: 'src'}))
         .pipe(inject(series(
             gulp.src(['src/vendor/**/*min.css'], {read: false}),
             gulp.src(['src/css/*.css'], {read: false})
-        ), {relative: false, ignorePath: 'src'}))
+        ), {relative: true, ignorePath: 'src'}))
         .pipe(gulp.dest('src'));
 });
 
@@ -80,12 +80,12 @@ gulp.task('inject-prod', ['build-prod'], function(){
         .pipe(inject(series(
             gulp.src(['dist/vendor/angular/angular.min.js'], {read : false}),
             gulp.src(['dist/vendor/**/*min.js', '!dist/vendor/angular/angular.min.js'], {read : false}),
-            gulp.src(['dist/suggest.box.js'], {read: false}),
+            gulp.src(['dist/suggest.box.min.js'], {read: false}),
             gulp.src(['dist/demo.js'], {read: false})
         ), {relative : false, ignorePath: 'dist'}))
         .pipe(inject(series(
             gulp.src(['dist/vendor/**/*min.css'], {read: false}),
-            gulp.src(['dist/suggest.box.css'], {read: false})
+            gulp.src(['dist/suggest.box.min.css'], {read: false})
         ), {relative: false, ignorePath: 'dist'}))
         .pipe(gulp.dest('dist'));
 });

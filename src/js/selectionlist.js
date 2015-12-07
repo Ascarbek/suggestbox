@@ -24,17 +24,26 @@
                         blocks = [];
 
                         for(var i=0; i<scope.model.length; i++) {
-                            //console.log(element);
-
-                            var currentModel = scope.list[scope.model[i]];
+                            var currentModel = {};
                             var newScope = scope.$new();
+
+                            if(typeof scope.model[i] == 'number'){
+                                currentModel = scope.list[scope.model[i]];
+                                newScope.$itemId = scope.model[i];
+                            }
+                            else{
+                                currentModel[scope.sbNewItemField] = scope.model[i];
+                            }
                             newScope[modelAlias] = currentModel;
-                            newScope.itemId = scope.model[i];
-                            newScope.$index = i;
+
+                            newScope.$index = i; //reserved word
                             transclude(newScope, function (clone, scope) {
                                 scope.sbRemoveItemFromSelection = function(){
-                                    scope.unSelectListItem(scope.itemId);
-                                    scope.model.splice(scope.model.indexOf(scope.itemId), 1);
+                                    if((!scope.sbAllowFreeText)||(scope.sbAllowAddItem)){
+                                        scope.unSelectListItem(scope.$itemId);
+                                    }
+
+                                    scope.model.splice(scope.$index, 1);
                                 };
 
                                 blocks.push({scope: scope, clone: clone});

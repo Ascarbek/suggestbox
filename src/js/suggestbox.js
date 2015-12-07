@@ -104,7 +104,7 @@
                             $element.append(clone);
                         });
 
-                        $scope.$watch('model', function () {
+                        $scope.$watchCollection('model', function () {
                             $scope.sbOnSelectionChange();
                             if($scope.sbCloseListOnSelect) {
                                 $scope.closeDropDown();
@@ -116,7 +116,7 @@
                                     $scope.selectListItem(i);
                                 });
                             }
-                        }, true);
+                        });
 
                         $scope.$watch('list', function(){
                             //console.log('list - ', $scope.list);
