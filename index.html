@@ -28,9 +28,9 @@
 <body style="
 font-family: 'Open Sans', sans-serif;
 ">
-
+<div class="page-title">Angular SuggestBox is an AngularJS component (directive) which provides highly customizable dropdown list (combobox, multiselect, autocomplete, typeahead).</div>
 <div class="example-block">
-    <div class="title">Example 1</div>
+    <div class="title">Example 1: Check selected items behaviour.</div>
     <div
         az-suggest-box
         sb-list="i in c.items"
@@ -46,7 +46,7 @@ font-family: 'Open Sans', sans-serif;
         <div class="select">
             <div class="input">
                 <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>
-                <input sb-trigger-area sb-type-ahead ng-model="searchText">
+                <input sb-trigger-area sb-type-ahead>
             </div>
 
             <button sb-trigger-area><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>
@@ -60,7 +60,7 @@ font-family: 'Open Sans', sans-serif;
 </div>
 
 <div class="example-block">
-    <div class="title">Example 2</div>
+    <div class="title">Example 2: Hide selected items</div>
     <div
         az-suggest-box
         sb-list="i in c.items"
@@ -75,7 +75,7 @@ font-family: 'Open Sans', sans-serif;
         <div class="select">
             <div class="input">
                 <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>
-                <input sb-trigger-area sb-type-ahead ng-model="searchText">
+                <input sb-trigger-area sb-type-ahead>
             </div>
 
             <button sb-trigger-area><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>
@@ -89,7 +89,7 @@ font-family: 'Open Sans', sans-serif;
 </div>
 
 <div class="example-block">
-    <div class="title">Example 3</div>
+    <div class="title">Example 3: allow duplicates</div>
     <div
         az-suggest-box
         sb-list="i in c.items"
@@ -104,7 +104,72 @@ font-family: 'Open Sans', sans-serif;
         <div class="select">
             <div class="input">
                 <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>
-                <input sb-trigger-area sb-type-ahead ng-model="searchText">
+                <input sb-trigger-area sb-type-ahead>
+            </div>
+
+            <button sb-trigger-area><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>
+        </div>
+
+        <ul class="dropdown">
+            <li sb-dropdown-item class="item">{{i.name}} ({{i.email}})</li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="example-block">
+    <div class="title">Example 4: Free entries with adding to list.</div>
+    <div
+        az-suggest-box
+        sb-list="i in c.items"
+        sb-model="s in c.selectedItem4"
+        class="suggest-box"
+        sb-on-selection-change="c.change()"
+        sb-close-list-on-select="false"
+        sb-selected-list-item-class="sb-list-item-checked"
+        sb-allow-duplicates="false"
+        sb-allow-free-text="true"
+        sb-allow-add-item="true"
+        name="sb4"
+        >
+
+        <div class="select">
+            <div class="input">
+                <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>
+                <input sb-trigger-area sb-type-ahead>
+            </div>
+
+            <button sb-trigger-area><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>
+        </div>
+
+        <ul class="dropdown">
+            <li sb-dropdown-item class="item">{{i.name}} ({{i.email}})</li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="example-block">
+    <div class="title">Example 5: Single item selection. Combobox behaviour. Free entries</div>
+    <div
+        az-suggest-box
+        sb-list="i in c.items"
+        sb-model="s in c.selectedItem5"
+        class="suggest-box"
+        sb-on-selection-change="c.change()"
+        sb-close-list-on-select="true"
+        sb-allow-duplicates="false"
+        sb-allow-free-text="true"
+        sb-allow-add-item="true"
+        sb-max-selection="1"
+        sb-selected-list-item-class="sb-list-item-checked"
+        name="sb5"
+        >
+
+        <div class="select">
+            <div class="input">
+                <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>
+                <input sb-trigger-area sb-type-ahead>
             </div>
 
             <button sb-trigger-area><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>
