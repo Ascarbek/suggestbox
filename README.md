@@ -39,6 +39,8 @@ bower install angular-suggestbox
 ```
 
 # Examples
+Live Demo available at
+http://ascarbek.github.io/suggestbox/
 
 # Documentation
 
