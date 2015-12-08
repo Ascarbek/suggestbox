@@ -105,7 +105,7 @@
                         });
 
                         $scope.$watchCollection('model', function () {
-                            $scope.sbOnSelectionChange();
+
                             if($scope.sbCloseListOnSelect) {
                                 $scope.closeDropDown();
                                 $scope.$broadcast('clearSearch');
@@ -116,6 +116,8 @@
                                     $scope.selectListItem(i);
                                 });
                             }
+
+                            $scope.sbOnSelectionChange();
                         });
 
                         $scope.$watch('list', function(){

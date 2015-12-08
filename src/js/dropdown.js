@@ -95,8 +95,7 @@
                                     scope.unSelectListItem(m);
                                 }
                             });
-                            scope.model = [];
-                            scope.$apply();
+                            scope.model.splice(0, scope.model.length);
                         }
 
                         if(scope.sbAllowDuplicates){

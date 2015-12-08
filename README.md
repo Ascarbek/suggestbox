@@ -53,6 +53,7 @@ http://ascarbek.github.io/suggestbox/
 + sb-allow-add-item | boolean optional false |
 + sb-new-item-field | string optional 'name' |
 + sb-search-field | string optional null |
++ sb-select-first-list-item | boolean optional false
 + sb-broadcast-event-name | string optional 'azSuggestBoxSelect' |
 + sb-selected-list-item-class | string optional 'ng-hide'
 + sb-close-list-on-select | boolean optional false |
@@ -69,6 +70,7 @@ http://ascarbek.github.io/suggestbox/
 ## Functions
 + getSearchResultsCount|
 + getListItemsCount|
++ getSelectionCount
 
 # Component Based Development
 It's recommended to divide an App's layout into components. Components should keep its layout separately. Components can consist of other components.

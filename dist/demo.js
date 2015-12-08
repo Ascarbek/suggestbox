@@ -420,8 +420,8 @@
             this.selectedItem4 = [14];
             this.selectedItem5 = [];
 
-            /*this.change = function(){
-                console.log('something changed.');
-            }*/
+            this.change = function(e){
+                console.log(this.selectedItem5);
+            }
         }]);
 })();

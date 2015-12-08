@@ -54,10 +54,13 @@
                                 else{
                                     blocks[scope.$index-1].clone.after(clone);
                                 }
-
                             });
                         }
                     });
+
+                    scope.getSelectionCount = function(){
+                        return scope.model.length;
+                    };
 
                 }
             }
