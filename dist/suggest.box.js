@@ -434,7 +434,7 @@
                                 //$scope.skipSyncModel = true;
                                 var left = [];
                                 for (var m = 0; m < $scope.model.length; m++) {
-                                    if ($scope.model[m].$listIndex) {
+                                    if (typeof $scope.model[m].$listIndex == 'number') {
                                         if ($scope.indexes.indexOf($scope.model[m].$listIndex) == -1) {
                                             $scope.model.splice(m, 1);
                                             m--;
