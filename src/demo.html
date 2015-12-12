@@ -33,10 +33,11 @@ font-family: 'Open Sans', sans-serif;
     <div class="title">Example 1: Check selected items behaviour.</div>
     <div
         az-suggest-box
-        sb-list="i in c.items"
-        sb-model="s in c.selectedItem1"
+        sb-list="c.items"
+        sb-selected-indexes="c.selectedItem1"
+        sb-model="c.model1"
         class="suggest-box"
-        sb-on-selection-change="c.change()"
+        sb-on-selection-change="c.change1()"
         sb-close-list-on-select="false"
         sb-allow-duplicates="false"
         sb-selected-list-item-class="sb-list-item-checked"
@@ -46,7 +47,7 @@ font-family: 'Open Sans', sans-serif;
         <div class="select">
             <div class="input">
                 <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>
-                <input sb-trigger-area sb-type-ahead>
+                <input sb-trigger-area sb-type-ahead tabindex="1">
             </div>
 
             <button sb-trigger-area><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>
@@ -63,10 +64,10 @@ font-family: 'Open Sans', sans-serif;
     <div class="title">Example 2: Hide selected items</div>
     <div
         az-suggest-box
-        sb-list="i in c.items"
-        sb-model="s in c.selectedItem2"
+        sb-list="c.items"
+        sb-selected-indexes="c.selectedItem2"
         class="suggest-box"
-        sb-on-selection-change="c.change()"
+        sb-on-selection-change="c.change2()"
         sb-close-list-on-select="false"
         sb-allow-duplicates="false"
         name="sb2"
@@ -75,7 +76,7 @@ font-family: 'Open Sans', sans-serif;
         <div class="select">
             <div class="input">
                 <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>
-                <input sb-trigger-area sb-type-ahead>
+                <input sb-trigger-area sb-type-ahead tabindex="2">
             </div>
 
             <button sb-trigger-area><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>
@@ -92,10 +93,10 @@ font-family: 'Open Sans', sans-serif;
     <div class="title">Example 3: allow duplicates</div>
     <div
         az-suggest-box
-        sb-list="i in c.items"
-        sb-model="s in c.selectedItem3"
+        sb-list="c.items"
+        sb-selected-indexes="c.selectedItem3"
         class="suggest-box"
-        sb-on-selection-change="c.change()"
+        sb-on-selection-change="c.change3()"
         sb-close-list-on-select="false"
         sb-allow-duplicates="true"
         name="sb3"
@@ -104,7 +105,7 @@ font-family: 'Open Sans', sans-serif;
         <div class="select">
             <div class="input">
                 <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>
-                <input sb-trigger-area sb-type-ahead>
+                <input sb-trigger-area sb-type-ahead  tabindex="3">
             </div>
 
             <button sb-trigger-area><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>
@@ -121,10 +122,10 @@ font-family: 'Open Sans', sans-serif;
     <div class="title">Example 4: Free entries with adding to list.</div>
     <div
         az-suggest-box
-        sb-list="i in c.items"
-        sb-model="s in c.selectedItem4"
+        sb-list="c.items"
+        sb-selected-indexes="c.selectedItem4"
         class="suggest-box"
-        sb-on-selection-change="c.change()"
+        sb-on-selection-change="c.change4()"
         sb-close-list-on-select="false"
         sb-selected-list-item-class="sb-list-item-checked"
         sb-allow-duplicates="false"
@@ -136,7 +137,7 @@ font-family: 'Open Sans', sans-serif;
         <div class="select">
             <div class="input">
                 <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>
-                <input sb-trigger-area sb-type-ahead>
+                <input sb-trigger-area sb-type-ahead tabindex="4">
             </div>
 
             <button sb-trigger-area><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>
@@ -153,10 +154,10 @@ font-family: 'Open Sans', sans-serif;
     <div class="title">Example 5: Single item selection. Combobox behaviour. Free entries</div>
     <div
         az-suggest-box
-        sb-list="i in c.items"
-        sb-model="s in c.selectedItem5"
+        sb-list="c.items"
+        sb-selected-indexes="c.selectedItem5"
         class="suggest-box"
-        sb-on-selection-change="c.change()"
+        sb-on-selection-change="c.change5()"
         sb-close-list-on-select="true"
         sb-allow-duplicates="false"
         sb-allow-free-text="true"
@@ -169,7 +170,7 @@ font-family: 'Open Sans', sans-serif;
         <div class="select">
             <div class="input">
                 <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>
-                <input sb-trigger-area sb-type-ahead>
+                <input sb-trigger-area sb-type-ahead tabindex="5">
             </div>
 
             <button sb-trigger-area><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>

@@ -39,36 +39,34 @@
                                     scope.toggleItemSelection(scope.highlightedItem);
                                 }
                                 else {
-                                    if(scope.sbAllowFreeText){
-                                        if(!scope.sbAllowAddItem) {
-                                            scope.model.push(element.val());
+                                    if((scope.sbAllowFreeText)&&(element.val().length > 0)){
+                                        var newObj = {};
+                                        newObj[scope.sbNewItemField] = element.val();
+                                        newObj['$isNew'] = true;
+
+                                        if(scope.sbAllowAddItem){
+                                            scope.list.splice(0, 0, newObj);
+                                            for (var m = 0; m < scope.indexes.length; m++) {
+                                                scope.indexes[m]++;
+                                            }
+                                            scope.toggleItemSelection(0);
                                         }
                                         else{
 
-                                            var newObj = {};
-                                            newObj[scope.sbNewItemField] = element.val();
-
-                                            scope.list.splice(0, 0, newObj);
-
-                                            if(scope.sbMaxSelection == 1){
-                                                scope.model.splice(0, scope.model.length);
-                                                scope.toggleItemSelection(0);
-                                            }
-                                            else {
-                                                for (var m = 0; m < scope.model.length; m++) {
-                                                    if (typeof scope.model[m] == 'number') {
-                                                        scope.model[m]++;
-                                                    }
-                                                }
-                                                scope.toggleItemSelection(0);
-                                            }
+                                            scope.model.push(newObj);
                                         }
                                     }
                                     else{
 
                                     }
                                 }
-                                e.preventDefault();
+
+                                if(e.keyCode == 9){
+                                    scope.closeDropDown();
+                                    scope.highlightNone();
+                                    scope.$broadcast('clearSearch');
+                                }
+                                //scope.suppressSyncing();
                             }
                                 break;
 
@@ -84,7 +82,13 @@
                             {
                                 //backspace
                                 if (element.val().length == 0) {
-                                    scope.unSelectListItem(scope.model.pop());
+                                    if(scope.model[scope.model.length-1].$isNew){
+                                        scope.model.pop();
+                                    }
+                                    else {
+                                        scope.unSelectListItem(scope.indexes.pop());
+                                        scope.model.pop();
+                                    }
                                 }
                             }
                                 break;
@@ -104,7 +108,7 @@
                             scope.showListItem(i);
                         }
                         if(!scope.sbAllowDuplicates) {
-                            scope.model.forEach(function (i) {
+                            scope.indexes.forEach(function (i) {
                                 scope.selectListItem(i);
                             });
                         }
@@ -143,8 +147,11 @@
 
                                             if(obj.search(new RegExp(text)) > -1){
                                                 scope.showListItem(i);
-                                                foundCount++;
-                                                lastId = i;
+                                                if(scope.indexes.indexOf(i) == -1) {
+                                                    foundCount++;
+                                                    lastId = i;
+                                                }
+
                                                 break;
                                             }
                                             else{
@@ -179,7 +186,7 @@
                         }
 
                         if(!scope.sbAllowDuplicates) {
-                            scope.model.forEach(function (i) {
+                            scope.indexes.forEach(function (i) {
                                 scope.selectListItem(i);
                                 if (lastId == i) {
                                     lastId = -1;

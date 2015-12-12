@@ -63,6 +63,9 @@
                                     angular.element(clone).removeClass(scope.sbSelectedListItemClass);
                                     scope.selected = false;
                                 };
+                                scope.isSelected = function(){
+                                    return scope.selected;
+                                };
 
                                 scope.highlight = function(){
                                     angular.element(clone).addClass('sb-list-item-highlight');
@@ -90,32 +93,44 @@
 
                     scope.toggleItemSelection = function(itemId){
                         if(scope.sbMaxSelection == 1){
-                            scope.model.forEach(function(m){
-                                if(typeof m == 'number'){
-                                    scope.unSelectListItem(m);
-                                }
+                            scope.indexes.forEach(function(m){
+                                scope.unSelectListItem(m);
                             });
+                            scope.indexes.splice(0, scope.indexes.length);
                             scope.model.splice(0, scope.model.length);
                         }
 
                         if(scope.sbAllowDuplicates){
-                            scope.model.push(itemId);
+                            scope.indexes.push(itemId);
+                            scope.model.push(scope.list[itemId]);
+                            scope.model[scope.model.length-1].$listIndex = itemId;
                         }
                         else {
                             var isFound = false;
 
-                            for(var i=0; i<scope.model.length; i++){
-                                if(scope.model[i] === itemId){
-                                    scope.model.splice(i, 1);
+                            for(var i=0; i<scope.indexes.length; i++){
+                                if(scope.indexes[i] === itemId){
+                                    scope.indexes.splice(i, 1);
                                     scope.unSelectListItem(itemId);
                                     isFound = true;
                                     break;
                                 }
                             }
+                            if(isFound) {
+                                for (var ii = 0; ii < scope.model.length; ii++) {
+                                    if(scope.model[ii].$listIndex == itemId){
+                                        scope.model.splice(ii, 1);
+                                    }
+                                }
+                            }
                             if(!isFound){
-                                scope.model.push(itemId);
+                                scope.indexes.push(itemId);
+                                scope.model.push(scope.list[itemId]);
+                                scope.model[scope.model.length-1].$listIndex = itemId;
+                                scope.highlightNone();
                             }
                         }
+                        //scope.suppressSyncing();
                     };
 
                     scope.highlightNone = function(){

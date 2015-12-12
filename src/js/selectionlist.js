@@ -13,7 +13,7 @@
                 link: function(scope, element, attrs, ctrl, transclude){
 
                     var blocks = [];
-                    var modelAlias = scope.modelAlias;
+                    var modelAlias = scope.indexesAlias;
 
                     scope.$watchCollection('model',function(){
                         for(var b=0; b<blocks.length; b++){
@@ -27,20 +27,21 @@
                             var currentModel = {};
                             var newScope = scope.$new();
 
-                            if(typeof scope.model[i] == 'number'){
-                                currentModel = scope.list[scope.model[i]];
-                                newScope.$itemId = scope.model[i];
-                            }
-                            else{
-                                currentModel[scope.sbNewItemField] = scope.model[i];
-                            }
+                            currentModel = scope.model[i];
                             newScope[modelAlias] = currentModel;
 
                             newScope.$index = i; //reserved word
                             transclude(newScope, function (clone, scope) {
                                 scope.sbRemoveItemFromSelection = function(){
-                                    if((!scope.sbAllowFreeText)||(scope.sbAllowAddItem)){
-                                        scope.unSelectListItem(scope.$itemId);
+                                    //scope.suppressSyncing();
+                                    if(scope[modelAlias].$listIndex){
+                                        scope.unSelectListItem(scope[modelAlias].$listIndex);
+                                        for(var l=0; l<scope.indexes.length; l++){
+                                            if(scope[modelAlias].$listIndex == scope.indexes[l]) {
+                                                scope.indexes.splice(l, 1);
+                                                break;
+                                            }
+                                        }
                                     }
 
                                     scope.model.splice(scope.$index, 1);
@@ -56,6 +57,7 @@
                                 }
                             });
                         }
+                        //scope.suppressSyncing();
                     });
 
                     scope.getSelectionCount = function(){

@@ -413,15 +413,30 @@
             ];
 
             this.selectedItem1 = [];
-            this.selectedItem1.push(1);
+            //this.selectedItem1.push(1);
+
+            this.model1 = [];
+            this.model1.push(this.items[1]);
 
             this.selectedItem2 = [4,5,6];
             this.selectedItem3 = [43,23];
             this.selectedItem4 = [14];
             this.selectedItem5 = [];
 
-            this.change = function(e){
+            this.change1 = function(e){
+                console.log(this.selectedItem1);
+            };
+            this.change2 = function(e){
+                console.log(this.selectedItem2);
+            };
+            this.change3 = function(e){
+                console.log(this.selectedItem3);
+            };
+            this.change4 = function(e){
+                console.log(this.selectedItem4);
+            };
+            this.change5 = function(e){
                 console.log(this.selectedItem5);
-            }
+            };
         }]);
 })();

@@ -45,8 +45,11 @@ http://ascarbek.github.io/suggestbox/
 # Documentation
 
 ## Attributes
++ sb-list-item-alias | string optional 'i'
 + sb-list | Array Required |
-+ sb-model | array Required |
++ sb-model-alias | string optional 's'
++ sb-model | array optional |
++ sb-selected-indexes | array optional
 + sb-max-selection | integer optional 0 |
 + sb-allow-duplicates | boolean optional false |
 + sb-allow-free-text | boolean optional false |

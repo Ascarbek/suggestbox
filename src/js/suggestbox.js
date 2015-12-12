@@ -11,8 +11,11 @@
                 transclude: true,
                 restrict: 'AE',
                 scope: {
-                    sbList: '@',
-                    sbModel: '@',
+                    listAlias: '@sbListItemAlias',
+                    list: '=sbList',
+                    indexesAlias: '@sbModelAlias',
+                    model: '=sbModel',
+                    indexes: '=sbSelectedIndexes',
                     sbMaxSelection: '=',
                     sbAllowDuplicates: '=',
                     sbAllowFreeText: '=',
@@ -31,13 +34,14 @@
                 controller: ['$window', '$rootScope', '$scope', '$element', '$transclude', '$timeout', function($window, $rootScope, $scope, $element, $transclude, $timeout){
 
                     $scope.init = function() {
-                        //$scope.isOpen = false; //shadow
-                        if($scope.sbList === undefined){
+                        if($scope.list === undefined){
                             throw "sb-list attribute must be set";
                         }
-                        if($scope.sbModel === undefined){
-                            throw "sb-model attribute must be set";
-                        }
+
+                        $scope.listAlias = $scope.listAlias || 'i';
+                        $scope.indexesAlias = $scope.indexesAlias || 's';
+                        $scope.indexes = $scope.indexes || [];
+                        $scope.model = $scope.model || [];
                         $scope.sbMaxSelection = $scope.sbMaxSelection || 0;
                         $scope.sbAllowDuplicates = $scope.sbAllowDuplicates || false;
                         $scope.sbAllowFreeText = $scope.sbAllowFreeText || false;
@@ -50,33 +54,6 @@
                         $scope.sbCloseListOnSelect = $scope.sbCloseListOnSelect || false;
 
                         $scope.weSentBroadcast = false;
-
-                        //var match = $scope.sbList.match(/^\s*([\s\S]+?)\s+in\s+([\s\S]+)/);
-                        var list, model, listAlias, modelAlias;
-
-                        var listWords = $scope.sbList.split(' ');
-                        if (listWords.length == 3) {
-                            listAlias = listWords[0];
-                            list = listWords[2];
-                        }
-                        else {
-                            throw "invalid sbList attribute";
-                        }
-
-                        $scope.listAlias = listAlias;
-                        $scope.list = $scope.$parent.$eval(list);
-
-                        var modelWords = $scope.sbModel.split(' ');
-                        if (modelWords.length == 3) {
-                            modelAlias = modelWords[0];
-                            model = modelWords[2];
-                        }
-                        else {
-                            throw "invalid sbModel attribute";
-                        }
-
-                        $scope.modelAlias = modelAlias;
-                        $scope.model = $scope.$parent.$eval(model);
 
                         $scope.closeDropDown = function(){
                             $scope.isOpen = false;
@@ -104,25 +81,96 @@
                             $element.append(clone);
                         });
 
-                        $scope.$watchCollection('model', function () {
+                        $scope.$watchCollection('list', function(){
+                            for(var i=0; i<$scope.list.length; i++){
+                                if(typeof $scope.list[i] != 'object'){
+                                    throw 'sb-list array items should be objects';
+                                }
+                            }
+                        });
 
+                        $scope.skipSyncIndex = false;
+                        $scope.skipSyncModel = false;
+
+                        $scope.$watchCollection('indexes', function () {
                             if($scope.sbCloseListOnSelect) {
                                 $scope.closeDropDown();
+                                $scope.highlightNone();
                                 $scope.$broadcast('clearSearch');
                             }
 
                             if(!$scope.sbAllowDuplicates) {
-                                $scope.model.forEach(function (i) {
+                                $scope.indexes.forEach(function (i) {
                                     $scope.selectListItem(i);
                                 });
                             }
 
-                            $scope.sbOnSelectionChange();
+                            if(!$scope.skipSyncIndex) {
+                                //$scope.skipSyncModel = true;
+                                var left = [];
+                                for (var m = 0; m < $scope.model.length; m++) {
+                                    if ($scope.model[m].$listIndex) {
+                                        if ($scope.indexes.indexOf($scope.model[m].$listIndex) == -1) {
+                                            $scope.model.splice(m, 1);
+                                            m--;
+                                        }
+                                        else{
+                                            left[$scope.model[m].$listIndex] = true;
+                                        }
+                                    }
+                                }
+                                for(var i=0; i<$scope.indexes.length; i++){
+                                    if(!left[$scope.indexes[i]]){
+                                        $scope.model.push($scope.list[$scope.indexes[i]]);
+                                        $scope.model[$scope.model.length-1].$listIndex = $scope.indexes[i];
+                                    }
+                                }
+                            }
+                            else{
+                                $scope.skipSyncIndex = false;
+                            }
                         });
 
-                        $scope.$watch('list', function(){
-                            //console.log('list - ', $scope.list);
-                        }, true);
+                        $scope.$watchCollection('model', function(){
+                            $scope.sbOnSelectionChange();
+
+                            if(!$scope.skipSyncModel){
+                                $scope.skipSyncIndex = true;
+                                $scope.indexes.splice(0, $scope.indexes.length);
+                                for(var m=0; m<$scope.model.length; m++) {
+                                    var found = false;
+                                    var foundIndex = -1;
+                                    for(var i=0; i<$scope.list.length; i++){
+                                        //    $listIndex
+                                        //    $isNew
+                                        var isEqual = true;
+                                        var curItem = $scope.list[i];
+                                        var curModel = $scope.model[m];
+                                        for (var key in curItem) {
+                                            if (curItem[key] !== curModel[key]) {
+                                                isEqual = false;
+                                                break;
+                                            }
+                                        }
+                                        if(isEqual){
+                                            found = true;
+                                            foundIndex = i;
+                                            break;
+                                        }
+                                    }
+                                    if(found){
+                                        $scope.model[m].$listIndex = foundIndex;
+                                        $scope.indexes.push(foundIndex);
+                                    }
+                                    else{
+                                        $scope.model[m].$isNew = true;
+                                    }
+                                }
+                            }
+                            else{
+                                $scope.skipSyncModel = false;
+                            }
+                        });
 
                         $window.onclick = function(e){
                             var el = e.target;
