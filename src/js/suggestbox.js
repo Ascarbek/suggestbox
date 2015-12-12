@@ -100,6 +100,9 @@
                             }
 
                             if(!$scope.sbAllowDuplicates) {
+                                for(var l=0; l<$scope.list.length; l++){
+                                    $scope.unSelectListItem(l);
+                                }
                                 $scope.indexes.forEach(function (i) {
                                     $scope.selectListItem(i);
                                 });

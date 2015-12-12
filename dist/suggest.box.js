@@ -422,6 +422,9 @@
                             }
 
                             if(!$scope.sbAllowDuplicates) {
+                                for(var l=0; l<$scope.list.length; l++){
+                                    $scope.unSelectListItem(l);
+                                }
                                 $scope.indexes.forEach(function (i) {
                                     $scope.selectListItem(i);
                                 });
@@ -608,11 +611,11 @@
                                         newObj['$isNew'] = true;
 
                                         if(scope.sbAllowAddItem){
-                                            scope.list.splice(0, 0, newObj);
-                                            for (var m = 0; m < scope.indexes.length; m++) {
+                                            scope.list.splice(scope.list.length, 0, newObj);
+                                            /*for (var m = 0; m < scope.indexes.length; m++) {
                                                 scope.indexes[m]++;
-                                            }
-                                            scope.toggleItemSelection(0);
+                                            }*/
+                                            scope.toggleItemSelection(scope.list.length - 1);
                                         }
                                         else{
 
