@@ -142,7 +142,7 @@
                                                 obj = listItem[key].toString();
                                             }
                                             else{
-                                                break;
+                                                continue;
                                             }
 
                                             if(obj.search(new RegExp(text)) > -1){
