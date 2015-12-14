@@ -93,8 +93,8 @@ angular
                 onChange: '&'
             },
             template: '<div class="suggest-box" az-suggest-box '+
-                'sb-list="i in listItems" ' +
-                'sb-model="s in selectedItems" ' +
+                'sb-list="listItems" ' +
+                'sb-model="selectedItems" ' +
                 'sb-on-selection-change="onChange()" >'+
                     '<Here goes the layout. />'+
                 '</div>'
@@ -106,3 +106,12 @@ after that the component will look cleaner:
 <my-component listItems="" selectedItems="" onChange=""></my-component>
 ```
 
+# TODO
+attributes that are currently ignored:
+sb-search-field
+sb-select-first-list-item
+sb-max-selection (except when it's =1 (combo behaviour))
+
+provide readme with basic examples.
+
+add more examples to demo page.
