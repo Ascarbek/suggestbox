@@ -21,10 +21,11 @@
                     sbAllowFreeText: '=',
                     sbAllowAddItem: '=',
                     sbNewItemField: '@',
-                    sbSearchField: '@',
+                    sbSearchFields: '@',
                     sbSelectFirstListItem: '=',
                     sbBroadcastEventName: '@',
                     sbSelectedListItemClass: '@',
+                    sbHighlightedListItemClass: '@',
                     sbCloseListOnSelect: '=',
                     sbOnSelectionChange: '&'
                 },
@@ -47,10 +48,11 @@
                         $scope.sbAllowFreeText = $scope.sbAllowFreeText || false;
                         $scope.sbAllowAddItem = $scope.sbAllowAddItem || false;
                         $scope.sbNewItemField = $scope.sbNewItemField || 'name';
-                        $scope.sbSearchField = $scope.sbSearchField || false;
+                        $scope.sbSearchFields = $scope.sbSearchFields || false;
                         $scope.sbSelectFirstListItem = $scope.sbSelectFirstListItem || false;
                         $scope.sbBroadcastEventName = $scope.sbBroadcastEventName || 'azSuggestBoxSelect';
                         $scope.sbSelectedListItemClass = $scope.sbSelectedListItemClass || 'ng-hide';
+                        $scope.sbHighlightedListItemClass = $scope.sbHighlightedListItemClass || 'sb-list-item-highlight';
                         $scope.sbCloseListOnSelect = $scope.sbCloseListOnSelect || false;
 
                         $scope.weSentBroadcast = false;
@@ -67,17 +69,18 @@
                             return $scope.isOpen;
                         };
 
-                        $transclude($scope, function (clone, scope) {
-                            scope.closeDropDown();
-                            scope.$watch('isOpen', function(){
-                                if(scope.isOpen){
-                                    $element.addClass('open');
-                                }
-                                else{
-                                    $element.removeClass('open');
-                                }
-                            });
+                        $scope.closeDropDown();
 
+                        $scope.$watch('isOpen', function(){
+                            if($scope.isOpen){
+                                $element.addClass('open');
+                            }
+                            else{
+                                $element.removeClass('open');
+                            }
+                        });
+
+                        $transclude($scope, function (clone, scope) {
                             $element.append(clone);
                         });
 
@@ -88,9 +91,6 @@
                                 }
                             }
                         });
-
-                        $scope.skipSyncIndex = false;
-                        $scope.skipSyncModel = false;
 
                         $scope.$watchCollection('indexes', function () {
                             if($scope.sbCloseListOnSelect) {
@@ -108,70 +108,58 @@
                                 });
                             }
 
-                            if(!$scope.skipSyncIndex) {
-                                //$scope.skipSyncModel = true;
-                                var left = [];
-                                for (var m = 0; m < $scope.model.length; m++) {
-                                    if (typeof $scope.model[m].$listIndex == 'number') {
-                                        if ($scope.indexes.indexOf($scope.model[m].$listIndex) == -1) {
-                                            $scope.model.splice(m, 1);
-                                            m--;
-                                        }
-                                        else{
-                                            left[$scope.model[m].$listIndex] = true;
-                                        }
+                            var left = [];
+                            for (var m = 0; m < $scope.model.length; m++) {
+                                if (typeof $scope.model[m].$listIndex == 'number') {
+                                    if ($scope.indexes.indexOf($scope.model[m].$listIndex) == -1) {
+                                        $scope.model.splice(m, 1);
+                                        m--;
                                     }
-                                }
-                                for(var i=0; i<$scope.indexes.length; i++){
-                                    if(!left[$scope.indexes[i]]){
-                                        $scope.model.push($scope.list[$scope.indexes[i]]);
-                                        $scope.model[$scope.model.length-1].$listIndex = $scope.indexes[i];
+                                    else{
+                                        left[$scope.model[m].$listIndex] = true;
                                     }
                                 }
                             }
-                            else{
-                                $scope.skipSyncIndex = false;
+                            for(var i=0; i<$scope.indexes.length; i++){
+                                if(!left[$scope.indexes[i]]){
+                                    $scope.model.push($scope.list[$scope.indexes[i]]);
+                                    $scope.model[$scope.model.length-1].$listIndex = $scope.indexes[i];
+                                }
                             }
                         });
 
                         $scope.$watchCollection('model', function(){
                             $scope.sbOnSelectionChange();
 
-                            if(!$scope.skipSyncModel){
-                                $scope.skipSyncIndex = true;
-                                $scope.indexes.splice(0, $scope.indexes.length);
-                                for(var m=0; m<$scope.model.length; m++) {
-                                    var found = false;
-                                    var foundIndex = -1;
-                                    for(var i=0; i<$scope.list.length; i++){
-                                        //    $listIndex
-                                        //    $isNew
-                                        var isEqual = true;
-                                        var curItem = $scope.list[i];
-                                        var curModel = $scope.model[m];
-                                        for (var key in curItem) {
+                            $scope.indexes.splice(0, $scope.indexes.length);
+                            for(var m=0; m<$scope.model.length; m++) {
+                                var found = false;
+                                var foundIndex = -1;
+                                for(var i=0; i<$scope.list.length; i++){
+                                    var isEqual = true;
+                                    var curItem = $scope.list[i];
+                                    var curModel = $scope.model[m];
+                                    for (var key in curItem) {
+                                        if(curItem.hasOwnProperty(key)) {
                                             if (curItem[key] !== curModel[key]) {
                                                 isEqual = false;
                                                 break;
                                             }
                                         }
-                                        if(isEqual){
-                                            found = true;
-                                            foundIndex = i;
-                                            break;
-                                        }
                                     }
-                                    if(found){
-                                        $scope.model[m].$listIndex = foundIndex;
-                                        $scope.indexes.push(foundIndex);
-                                    }
-                                    else{
-                                        $scope.model[m].$isNew = true;
+                                    if(isEqual){
+                                        found = true;
+                                        foundIndex = i;
+                                        break;
                                     }
                                 }
-                            }
-                            else{
-                                $scope.skipSyncModel = false;
+                                if(found){
+                                    $scope.model[m].$listIndex = foundIndex;
+                                    $scope.indexes.push(foundIndex);
+                                }
+                                else{
+                                    $scope.model[m].$isNew = true;
+                                }
                             }
                         });
 
@@ -204,6 +192,6 @@
                 }]
             }
         }
-    ]);
+        ]);
 })();
 

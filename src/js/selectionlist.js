@@ -57,7 +57,6 @@
                                 }
                             });
                         }
-                        //scope.suppressSyncing();
                     });
 
                     scope.getSelectionCount = function(){

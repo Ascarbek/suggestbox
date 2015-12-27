@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="demo" ng-controller="demo as c">
+<html lang="en" ng-app="demo" ng-controller="demo as vm">
 <head>
     <meta charset="UTF-8">
     <title>SuggestBox demo page</title>
@@ -27,15 +27,10 @@ font-family: 'Open Sans', sans-serif;
     <div class="title">Example 1: Check selected items behaviour.</div>
     <div
         az-suggest-box
-        sb-list="c.items"
-        sb-selected-indexes="c.selectedItem1"
-        sb-model="c.model1"
+        sb-list="vm.names"
+        sb-model="vm.model1"
         class="suggest-box"
-        sb-on-selection-change="c.change1()"
-        sb-close-list-on-select="false"
-        sb-allow-duplicates="false"
         sb-selected-list-item-class="sb-list-item-checked"
-        name="sb1"
     >
 
         <div class="select">
@@ -44,7 +39,7 @@ font-family: 'Open Sans', sans-serif;
                 <input sb-trigger-area sb-type-ahead tabindex="1">
             </div>
 
-            <button sb-trigger-area><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>
+            <button sb-trigger-area><i class="fa fa-chevron-down"></i></button>
         </div>
 
         <ul class="dropdown">
@@ -58,13 +53,9 @@ font-family: 'Open Sans', sans-serif;
     <div class="title">Example 2: Hide selected items</div>
     <div
         az-suggest-box
-        sb-list="c.items"
-        sb-selected-indexes="c.selectedItem2"
+        sb-list="vm.names"
+        sb-model="vm.model2"
         class="suggest-box"
-        sb-on-selection-change="c.change2()"
-        sb-close-list-on-select="false"
-        sb-allow-duplicates="false"
-        name="sb2"
         >
 
         <div class="select">
@@ -73,7 +64,7 @@ font-family: 'Open Sans', sans-serif;
                 <input sb-trigger-area sb-type-ahead tabindex="2">
             </div>
 
-            <button sb-trigger-area><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>
+            <button sb-trigger-area><i class="fa fa-chevron-down"></i></button>
         </div>
 
         <ul class="dropdown">
@@ -87,13 +78,9 @@ font-family: 'Open Sans', sans-serif;
     <div class="title">Example 3: allow duplicates</div>
     <div
         az-suggest-box
-        sb-list="c.items"
-        sb-selected-indexes="c.selectedItem3"
+        sb-list="vm.names"
         class="suggest-box"
-        sb-on-selection-change="c.change3()"
-        sb-close-list-on-select="false"
         sb-allow-duplicates="true"
-        name="sb3"
         >
 
         <div class="select">
@@ -102,7 +89,7 @@ font-family: 'Open Sans', sans-serif;
                 <input sb-trigger-area sb-type-ahead  tabindex="3">
             </div>
 
-            <button sb-trigger-area><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>
+            <button sb-trigger-area><i class="fa fa-chevron-down"></i></button>
         </div>
 
         <ul class="dropdown">
@@ -116,16 +103,11 @@ font-family: 'Open Sans', sans-serif;
     <div class="title">Example 4: Free entries with adding to list.</div>
     <div
         az-suggest-box
-        sb-list="c.items"
-        sb-selected-indexes="c.selectedItem4"
+        sb-list="vm.names"
         class="suggest-box"
-        sb-on-selection-change="c.change4()"
-        sb-close-list-on-select="false"
         sb-selected-list-item-class="sb-list-item-checked"
-        sb-allow-duplicates="false"
         sb-allow-free-text="true"
         sb-allow-add-item="true"
-        name="sb4"
         >
 
         <div class="select">
@@ -134,7 +116,7 @@ font-family: 'Open Sans', sans-serif;
                 <input sb-trigger-area sb-type-ahead tabindex="4">
             </div>
 
-            <button sb-trigger-area><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>
+            <button sb-trigger-area><i class="fa fa-chevron-down"></i></button>
         </div>
 
         <ul class="dropdown">
@@ -148,17 +130,13 @@ font-family: 'Open Sans', sans-serif;
     <div class="title">Example 5: Single item selection. Combobox behaviour. Free entries</div>
     <div
         az-suggest-box
-        sb-list="c.items"
-        sb-selected-indexes="c.selectedItem5"
+        sb-list="vm.names"
         class="suggest-box"
-        sb-on-selection-change="c.change5()"
         sb-close-list-on-select="true"
-        sb-allow-duplicates="false"
         sb-allow-free-text="true"
         sb-allow-add-item="true"
         sb-max-selection="1"
         sb-selected-list-item-class="sb-list-item-checked"
-        name="sb5"
         >
 
         <div class="select">
@@ -167,7 +145,7 @@ font-family: 'Open Sans', sans-serif;
                 <input sb-trigger-area sb-type-ahead tabindex="5">
             </div>
 
-            <button sb-trigger-area><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></button>
+            <button sb-trigger-area><i class="fa fa-chevron-down"></i></button>
         </div>
 
         <ul class="dropdown">

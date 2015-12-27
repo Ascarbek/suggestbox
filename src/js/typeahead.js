@@ -18,7 +18,6 @@
                                 // down
                                 scope.openDropDown();
                                 scope.highlightNextItem();
-
                                 e.preventDefault();
                             }
                                 break;
@@ -27,7 +26,6 @@
                             {
                                 // up
                                 scope.highlightPrevItem();
-
                                 e.preventDefault();
                             }
                                 break;
@@ -46,13 +44,9 @@
 
                                         if(scope.sbAllowAddItem){
                                             scope.list.splice(scope.list.length, 0, newObj);
-                                            /*for (var m = 0; m < scope.indexes.length; m++) {
-                                                scope.indexes[m]++;
-                                            }*/
                                             scope.toggleItemSelection(scope.list.length - 1);
                                         }
                                         else{
-
                                             scope.model.push(newObj);
                                         }
                                     }
@@ -66,7 +60,6 @@
                                     scope.highlightNone();
                                     scope.$broadcast('clearSearch');
                                 }
-                                //scope.suppressSyncing();
                             }
                                 break;
 
@@ -74,6 +67,7 @@
                             {
                                 scope.closeDropDown();
                                 scope.$emit('clearSearch');
+                                scope.highlightNone();
                                 e.preventDefault();
                             }
                                 break;
@@ -81,7 +75,7 @@
                             case 8:
                             {
                                 //backspace
-                                if (element.val().length == 0) {
+                                if ((element.val().length == 0)&&(scope.model.length>0)) {
                                     if(scope.model[scope.model.length-1].$isNew){
                                         scope.model.pop();
                                     }
@@ -124,7 +118,7 @@
                         scope.highlightNone();
 
                         for(var i=0; i<scope.list.length; i++){
-                            if(text.length == 0){
+                            if(text.length == 0){   // show all if search is empty
                                 scope.showListItem(i);
                                 foundCount++;
                                 lastId = i;
@@ -160,33 +154,11 @@
                                         }
                                     }
                                 }
-                                else if(typeof listItem == 'string'){
-                                    if(listItem.toLowerCase().search(new RegExp(text)) > -1){
-                                        scope.showListItem(i);
-                                        foundCount++;
-                                        lastId = i;
-                                        break;
-                                    }
-                                    else{
-                                        scope.hideListItem(i);
-                                    }
-                                }
-                                else if(typeof listItem == 'number'){
-                                    if(listItem.toString().search(new RegExp(text)) > -1){
-                                        scope.showListItem(i);
-                                        foundCount++;
-                                        lastId = i;
-                                        break;
-                                    }
-                                    else{
-                                        scope.hideListItem(i);
-                                    }
-                                }
                             }
                         }
 
                         if(!scope.sbAllowDuplicates) {
-                            scope.indexes.forEach(function (i) {
+                            scope.indexes.forEach(function (i) { // hide selected items
                                 scope.selectListItem(i);
                                 if (lastId == i) {
                                     lastId = -1;
@@ -196,7 +168,7 @@
                         }
 
                         if(foundCount == 1){
-                            scope.highlightListItem(lastId);
+                            scope.highlightListItem(lastId);  // highlight the only item
                         }
                     }
                 }

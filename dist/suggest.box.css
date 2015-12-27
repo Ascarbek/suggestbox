@@ -78,24 +78,15 @@
     padding: 11px;
 }
 
-.suggest-box .select button i.fa-chevron-up
+.suggest-box .select button i
 {
-    display: none;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
-.suggest-box.open .select button i.fa-chevron-up
+.suggest-box.open .select button i
 {
-    display: block;
-}
-
-.suggest-box .select button i.fa-chevron-down
-{
-    display: block;
-}
-
-.suggest-box.open .select button i.fa-chevron-down
-{
-    display: none;
+    transform: rotate(180deg);
 }
 
 .suggest-box .dropdown

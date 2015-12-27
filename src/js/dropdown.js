@@ -4,7 +4,6 @@
 (function(){
     'use strict';
 
-    var uid = 0;
     angular
         .module('azSuggestBox')
         .directive('sbDropdownItem', [function(){
@@ -39,39 +38,56 @@
                             var newScope = scope.$new();
                             newScope[listAlias] = currentItem;
 
-                            newScope.$index = i; // reserved word, need to check list alias for collision
+                            newScope.$index = i; // reserved words, need to check list alias for collision
                             newScope.$first = i==0;
                             newScope.$last = i==scope.list.length-1;
 
                             transclude(newScope, function (clone, scope) {
                                 scope.hidden = false;
                                 scope.hide = function(){
-                                    angular.element(clone).addClass('ng-hide');
-                                    scope.hidden = true;
+                                    if(!scope.hidden) {
+                                        angular.element(clone).addClass('ng-hide');
+                                        scope.hidden = true;
+                                    }
                                 };
                                 scope.show = function(){
-                                    angular.element(clone).removeClass('ng-hide');
-                                    scope.hidden = false;
+                                    if(scope.hidden) {
+                                        if (!((scope.selected) && (scope.sbSelectedListItemClass == 'ng-hide'))) {
+                                            angular.element(clone).removeClass('ng-hide');
+                                        }
+                                        scope.hidden = false;
+                                    }
                                 };
 
                                 scope.selected = false;
                                 scope.select = function(){
-                                    angular.element(clone).addClass(scope.sbSelectedListItemClass);
-                                    scope.selected = true;
+                                    if(!scope.selected) {
+                                        angular.element(clone).addClass(scope.sbSelectedListItemClass);
+                                        scope.selected = true;
+                                    }
                                 };
                                 scope.unSelect = function(){
-                                    angular.element(clone).removeClass(scope.sbSelectedListItemClass);
-                                    scope.selected = false;
+                                    if(scope.selected) {
+                                        angular.element(clone).removeClass(scope.sbSelectedListItemClass);
+                                        scope.selected = false;
+                                    }
                                 };
                                 scope.isSelected = function(){
                                     return scope.selected;
                                 };
 
+                                scope.highlighted = false;
                                 scope.highlight = function(){
-                                    angular.element(clone).addClass('sb-list-item-highlight');
+                                    if(!scope.highlighted) {
+                                        angular.element(clone).addClass(scope.sbHighlightedListItemClass);
+                                        scope.highlighted = true;
+                                    }
                                 };
                                 scope.unHighlight = function(){
-                                    angular.element(clone).removeClass('sb-list-item-highlight');
+                                    if(scope.highlighted) {
+                                        angular.element(clone).removeClass(scope.sbHighlightedListItemClass);
+                                        scope.highlighted = false;
+                                    }
                                 };
 
                                 blocks.push({scope: scope, clone: clone});
@@ -130,7 +146,6 @@
                                 scope.highlightNone();
                             }
                         }
-                        //scope.suppressSyncing();
                     };
 
                     scope.highlightNone = function(){
@@ -162,7 +177,6 @@
                         if(blocks[itemId]) {
                             if(itemId == scope.highlightedItem){
                                 blocks[itemId].scope.unHighlight();
-                                //scope.highlightedItem = -1;
                             }
                             blocks[itemId].scope.select();
                         }
@@ -198,8 +212,10 @@
                             if(h >= blocks.length){
                                 h = 0;
                             }
-                        } while((cnt<blocks.length)&&(blocks[h].scope.hidden));
-                        scope.highlightListItem(h);
+                        } while((cnt<blocks.length)&&((blocks[h].scope.hidden)||((blocks[h].scope.selected)&&(scope.sbSelectedListItemClass == 'ng-hide'))));
+                        if(!blocks[h].scope.hidden) {
+                            scope.highlightListItem(h);
+                        }
                     };
 
                     scope.highlightPrevItem = function(){
@@ -210,8 +226,10 @@
                             if(h <= -1){
                                 h = blocks.length - 1;
                             }
-                        } while((cnt<blocks.length)&&(blocks[h].scope.hidden));
-                        scope.highlightListItem(h);
+                        } while((cnt<blocks.length)&&((blocks[h].scope.hidden)||((blocks[h].scope.selected)&&(scope.sbSelectedListItemClass == 'ng-hide'))));
+                        if(!blocks[h].scope.hidden) {
+                            scope.highlightListItem(h);
+                        }
                     };
                 }
             }
