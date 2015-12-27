@@ -1,6 +1,6 @@
 {
   "name": "angular-suggestbox",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "angular suggestbox, multiselect dropdown with customizable layout",
   "main": "server/server.js",
   "authors": [

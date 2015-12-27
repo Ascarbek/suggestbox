@@ -27,7 +27,8 @@
                     sbSelectedListItemClass: '@',
                     sbHighlightedListItemClass: '@',
                     sbCloseListOnSelect: '=',
-                    sbOnSelectionChange: '&'
+                    sbOnSelectionChange: '&',
+                    sbIsOpen: '@'
                 },
                 link: function(scope){
                     scope.init();
@@ -70,6 +71,9 @@
                         };
 
                         $scope.closeDropDown();
+                        if($scope.sbIsOpen){
+                            $scope.openDropDown();
+                        }
 
                         $scope.$watch('isOpen', function(){
                             if($scope.isOpen){

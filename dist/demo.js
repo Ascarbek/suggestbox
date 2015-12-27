@@ -373,6 +373,16 @@
                 "cc" : "4716483910252886"
             });
 
+            vm.model = [{
+                name: 'Tokyo',
+                population: 13189000,
+                country: 'Japan'
+            },{
+                name: 'London',
+                population: 8630100,
+                country: 'United Kingdom'
+            }];
+
 
         }]);
 })();
