@@ -14,7 +14,6 @@
 (function(){
     'use strict';
 
-    var uid = 0;
     angular
         .module('azSuggestBox')
         .directive('sbDropdownItem', [function(){
@@ -49,39 +48,56 @@
                             var newScope = scope.$new();
                             newScope[listAlias] = currentItem;
 
-                            newScope.$index = i; // reserved word, need to check list alias for collision
+                            newScope.$index = i; // reserved words, need to check list alias for collision
                             newScope.$first = i==0;
                             newScope.$last = i==scope.list.length-1;
 
                             transclude(newScope, function (clone, scope) {
                                 scope.hidden = false;
                                 scope.hide = function(){
-                                    angular.element(clone).addClass('ng-hide');
-                                    scope.hidden = true;
+                                    if(!scope.hidden) {
+                                        angular.element(clone).addClass('ng-hide');
+                                        scope.hidden = true;
+                                    }
                                 };
                                 scope.show = function(){
-                                    angular.element(clone).removeClass('ng-hide');
-                                    scope.hidden = false;
+                                    if(scope.hidden) {
+                                        if (!((scope.selected) && (scope.sbSelectedListItemClass == 'ng-hide'))) {
+                                            angular.element(clone).removeClass('ng-hide');
+                                        }
+                                        scope.hidden = false;
+                                    }
                                 };
 
                                 scope.selected = false;
                                 scope.select = function(){
-                                    angular.element(clone).addClass(scope.sbSelectedListItemClass);
-                                    scope.selected = true;
+                                    if(!scope.selected) {
+                                        angular.element(clone).addClass(scope.sbSelectedListItemClass);
+                                        scope.selected = true;
+                                    }
                                 };
                                 scope.unSelect = function(){
-                                    angular.element(clone).removeClass(scope.sbSelectedListItemClass);
-                                    scope.selected = false;
+                                    if(scope.selected) {
+                                        angular.element(clone).removeClass(scope.sbSelectedListItemClass);
+                                        scope.selected = false;
+                                    }
                                 };
                                 scope.isSelected = function(){
                                     return scope.selected;
                                 };
 
+                                scope.highlighted = false;
                                 scope.highlight = function(){
-                                    angular.element(clone).addClass('sb-list-item-highlight');
+                                    if(!scope.highlighted) {
+                                        angular.element(clone).addClass(scope.sbHighlightedListItemClass);
+                                        scope.highlighted = true;
+                                    }
                                 };
                                 scope.unHighlight = function(){
-                                    angular.element(clone).removeClass('sb-list-item-highlight');
+                                    if(scope.highlighted) {
+                                        angular.element(clone).removeClass(scope.sbHighlightedListItemClass);
+                                        scope.highlighted = false;
+                                    }
                                 };
 
                                 blocks.push({scope: scope, clone: clone});
@@ -140,7 +156,6 @@
                                 scope.highlightNone();
                             }
                         }
-                        //scope.suppressSyncing();
                     };
 
                     scope.highlightNone = function(){
@@ -172,7 +187,6 @@
                         if(blocks[itemId]) {
                             if(itemId == scope.highlightedItem){
                                 blocks[itemId].scope.unHighlight();
-                                //scope.highlightedItem = -1;
                             }
                             blocks[itemId].scope.select();
                         }
@@ -208,8 +222,10 @@
                             if(h >= blocks.length){
                                 h = 0;
                             }
-                        } while((cnt<blocks.length)&&(blocks[h].scope.hidden));
-                        scope.highlightListItem(h);
+                        } while((cnt<blocks.length)&&((blocks[h].scope.hidden)||((blocks[h].scope.selected)&&(scope.sbSelectedListItemClass == 'ng-hide'))));
+                        if(!blocks[h].scope.hidden) {
+                            scope.highlightListItem(h);
+                        }
                     };
 
                     scope.highlightPrevItem = function(){
@@ -220,8 +236,10 @@
                             if(h <= -1){
                                 h = blocks.length - 1;
                             }
-                        } while((cnt<blocks.length)&&(blocks[h].scope.hidden));
-                        scope.highlightListItem(h);
+                        } while((cnt<blocks.length)&&((blocks[h].scope.hidden)||((blocks[h].scope.selected)&&(scope.sbSelectedListItemClass == 'ng-hide'))));
+                        if(!blocks[h].scope.hidden) {
+                            scope.highlightListItem(h);
+                        }
                     };
                 }
             }
@@ -308,7 +326,6 @@
                                 }
                             });
                         }
-                        //scope.suppressSyncing();
                     });
 
                     scope.getSelectionCount = function(){
@@ -343,12 +360,14 @@
                     sbAllowFreeText: '=',
                     sbAllowAddItem: '=',
                     sbNewItemField: '@',
-                    sbSearchField: '@',
+                    sbSearchFields: '@',
                     sbSelectFirstListItem: '=',
                     sbBroadcastEventName: '@',
                     sbSelectedListItemClass: '@',
+                    sbHighlightedListItemClass: '@',
                     sbCloseListOnSelect: '=',
-                    sbOnSelectionChange: '&'
+                    sbOnSelectionChange: '&',
+                    sbIsOpen: '@'
                 },
                 link: function(scope){
                     scope.init();
@@ -369,10 +388,11 @@
                         $scope.sbAllowFreeText = $scope.sbAllowFreeText || false;
                         $scope.sbAllowAddItem = $scope.sbAllowAddItem || false;
                         $scope.sbNewItemField = $scope.sbNewItemField || 'name';
-                        $scope.sbSearchField = $scope.sbSearchField || false;
+                        $scope.sbSearchFields = $scope.sbSearchFields || false;
                         $scope.sbSelectFirstListItem = $scope.sbSelectFirstListItem || false;
                         $scope.sbBroadcastEventName = $scope.sbBroadcastEventName || 'azSuggestBoxSelect';
                         $scope.sbSelectedListItemClass = $scope.sbSelectedListItemClass || 'ng-hide';
+                        $scope.sbHighlightedListItemClass = $scope.sbHighlightedListItemClass || 'sb-list-item-highlight';
                         $scope.sbCloseListOnSelect = $scope.sbCloseListOnSelect || false;
 
                         $scope.weSentBroadcast = false;
@@ -389,17 +409,21 @@
                             return $scope.isOpen;
                         };
 
-                        $transclude($scope, function (clone, scope) {
-                            scope.closeDropDown();
-                            scope.$watch('isOpen', function(){
-                                if(scope.isOpen){
-                                    $element.addClass('open');
-                                }
-                                else{
-                                    $element.removeClass('open');
-                                }
-                            });
+                        $scope.closeDropDown();
+                        if($scope.sbIsOpen){
+                            $scope.openDropDown();
+                        }
 
+                        $scope.$watch('isOpen', function(){
+                            if($scope.isOpen){
+                                $element.addClass('open');
+                            }
+                            else{
+                                $element.removeClass('open');
+                            }
+                        });
+
+                        $transclude($scope, function (clone, scope) {
                             $element.append(clone);
                         });
 
@@ -410,9 +434,6 @@
                                 }
                             }
                         });
-
-                        $scope.skipSyncIndex = false;
-                        $scope.skipSyncModel = false;
 
                         $scope.$watchCollection('indexes', function () {
                             if($scope.sbCloseListOnSelect) {
@@ -430,70 +451,58 @@
                                 });
                             }
 
-                            if(!$scope.skipSyncIndex) {
-                                //$scope.skipSyncModel = true;
-                                var left = [];
-                                for (var m = 0; m < $scope.model.length; m++) {
-                                    if (typeof $scope.model[m].$listIndex == 'number') {
-                                        if ($scope.indexes.indexOf($scope.model[m].$listIndex) == -1) {
-                                            $scope.model.splice(m, 1);
-                                            m--;
-                                        }
-                                        else{
-                                            left[$scope.model[m].$listIndex] = true;
-                                        }
+                            var left = [];
+                            for (var m = 0; m < $scope.model.length; m++) {
+                                if (typeof $scope.model[m].$listIndex == 'number') {
+                                    if ($scope.indexes.indexOf($scope.model[m].$listIndex) == -1) {
+                                        $scope.model.splice(m, 1);
+                                        m--;
                                     }
-                                }
-                                for(var i=0; i<$scope.indexes.length; i++){
-                                    if(!left[$scope.indexes[i]]){
-                                        $scope.model.push($scope.list[$scope.indexes[i]]);
-                                        $scope.model[$scope.model.length-1].$listIndex = $scope.indexes[i];
+                                    else{
+                                        left[$scope.model[m].$listIndex] = true;
                                     }
                                 }
                             }
-                            else{
-                                $scope.skipSyncIndex = false;
+                            for(var i=0; i<$scope.indexes.length; i++){
+                                if(!left[$scope.indexes[i]]){
+                                    $scope.model.push($scope.list[$scope.indexes[i]]);
+                                    $scope.model[$scope.model.length-1].$listIndex = $scope.indexes[i];
+                                }
                             }
                         });
 
                         $scope.$watchCollection('model', function(){
                             $scope.sbOnSelectionChange();
 
-                            if(!$scope.skipSyncModel){
-                                $scope.skipSyncIndex = true;
-                                $scope.indexes.splice(0, $scope.indexes.length);
-                                for(var m=0; m<$scope.model.length; m++) {
-                                    var found = false;
-                                    var foundIndex = -1;
-                                    for(var i=0; i<$scope.list.length; i++){
-                                        //    $listIndex
-                                        //    $isNew
-                                        var isEqual = true;
-                                        var curItem = $scope.list[i];
-                                        var curModel = $scope.model[m];
-                                        for (var key in curItem) {
+                            $scope.indexes.splice(0, $scope.indexes.length);
+                            for(var m=0; m<$scope.model.length; m++) {
+                                var found = false;
+                                var foundIndex = -1;
+                                for(var i=0; i<$scope.list.length; i++){
+                                    var isEqual = true;
+                                    var curItem = $scope.list[i];
+                                    var curModel = $scope.model[m];
+                                    for (var key in curItem) {
+                                        if(curItem.hasOwnProperty(key)) {
                                             if (curItem[key] !== curModel[key]) {
                                                 isEqual = false;
                                                 break;
                                             }
                                         }
-                                        if(isEqual){
-                                            found = true;
-                                            foundIndex = i;
-                                            break;
-                                        }
                                     }
-                                    if(found){
-                                        $scope.model[m].$listIndex = foundIndex;
-                                        $scope.indexes.push(foundIndex);
-                                    }
-                                    else{
-                                        $scope.model[m].$isNew = true;
+                                    if(isEqual){
+                                        found = true;
+                                        foundIndex = i;
+                                        break;
                                     }
                                 }
-                            }
-                            else{
-                                $scope.skipSyncModel = false;
+                                if(found){
+                                    $scope.model[m].$listIndex = foundIndex;
+                                    $scope.indexes.push(foundIndex);
+                                }
+                                else{
+                                    $scope.model[m].$isNew = true;
+                                }
                             }
                         });
 
@@ -526,7 +535,7 @@
                 }]
             }
         }
-    ]);
+        ]);
 })();
 
 
@@ -584,7 +593,6 @@
                                 // down
                                 scope.openDropDown();
                                 scope.highlightNextItem();
-
                                 e.preventDefault();
                             }
                                 break;
@@ -593,7 +601,6 @@
                             {
                                 // up
                                 scope.highlightPrevItem();
-
                                 e.preventDefault();
                             }
                                 break;
@@ -612,13 +619,9 @@
 
                                         if(scope.sbAllowAddItem){
                                             scope.list.splice(scope.list.length, 0, newObj);
-                                            /*for (var m = 0; m < scope.indexes.length; m++) {
-                                                scope.indexes[m]++;
-                                            }*/
                                             scope.toggleItemSelection(scope.list.length - 1);
                                         }
                                         else{
-
                                             scope.model.push(newObj);
                                         }
                                     }
@@ -632,7 +635,6 @@
                                     scope.highlightNone();
                                     scope.$broadcast('clearSearch');
                                 }
-                                //scope.suppressSyncing();
                             }
                                 break;
 
@@ -640,6 +642,7 @@
                             {
                                 scope.closeDropDown();
                                 scope.$emit('clearSearch');
+                                scope.highlightNone();
                                 e.preventDefault();
                             }
                                 break;
@@ -647,7 +650,7 @@
                             case 8:
                             {
                                 //backspace
-                                if (element.val().length == 0) {
+                                if ((element.val().length == 0)&&(scope.model.length>0)) {
                                     if(scope.model[scope.model.length-1].$isNew){
                                         scope.model.pop();
                                     }
@@ -690,7 +693,7 @@
                         scope.highlightNone();
 
                         for(var i=0; i<scope.list.length; i++){
-                            if(text.length == 0){
+                            if(text.length == 0){   // show all if search is empty
                                 scope.showListItem(i);
                                 foundCount++;
                                 lastId = i;
@@ -708,7 +711,7 @@
                                                 obj = listItem[key].toString();
                                             }
                                             else{
-                                                break;
+                                                continue;
                                             }
 
                                             if(obj.search(new RegExp(text)) > -1){
@@ -726,33 +729,11 @@
                                         }
                                     }
                                 }
-                                else if(typeof listItem == 'string'){
-                                    if(listItem.toLowerCase().search(new RegExp(text)) > -1){
-                                        scope.showListItem(i);
-                                        foundCount++;
-                                        lastId = i;
-                                        break;
-                                    }
-                                    else{
-                                        scope.hideListItem(i);
-                                    }
-                                }
-                                else if(typeof listItem == 'number'){
-                                    if(listItem.toString().search(new RegExp(text)) > -1){
-                                        scope.showListItem(i);
-                                        foundCount++;
-                                        lastId = i;
-                                        break;
-                                    }
-                                    else{
-                                        scope.hideListItem(i);
-                                    }
-                                }
                             }
                         }
 
                         if(!scope.sbAllowDuplicates) {
-                            scope.indexes.forEach(function (i) {
+                            scope.indexes.forEach(function (i) { // hide selected items
                                 scope.selectListItem(i);
                                 if (lastId == i) {
                                     lastId = -1;
@@ -762,7 +743,7 @@
                         }
 
                         if(foundCount == 1){
-                            scope.highlightListItem(lastId);
+                            scope.highlightListItem(lastId);  // highlight the only item
                         }
                     }
                 }

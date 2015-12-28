@@ -1,0 +1,129 @@
+.suggest-box
+{
+    position: relative;
+}
+
+.suggest-box ul
+{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.suggest-box input,
+.suggest-box button
+{
+    border: none;
+    outline: 0;
+    background: none;
+    padding: 0;
+    margin: 0;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    font-family: inherit;
+}
+
+.suggest-box .select
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    border: #ccc 1px solid;
+    border-radius: 4px;
+    background-color: #ffffff;
+}
+
+.suggest-box .select .input
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    flex: 1;
+    padding: 5px 8px;
+    border-right: #ccc 1px solid;
+}
+
+.suggest-box .select .input .selection-item
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    color: #999999;
+    background-color: #f3f3f3;
+    border: #ddd 1px solid;
+    padding: 1px 5px;
+    margin: 2px 6px 2px 0;
+    font-size: 12px;
+    border-radius: 3px;
+}
+
+.suggest-box .select .input .selection-item .rem-btn
+{
+    cursor: pointer;
+}
+
+.suggest-box .select input
+{
+    flex: 1 1 60px;
+}
+
+.suggest-box .select button
+{
+    color: #333;
+    padding: 11px;
+}
+
+.suggest-box .select button i
+{
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.suggest-box.open .select button i
+{
+    transform: rotate(180deg);
+}
+
+.suggest-box .dropdown
+{
+    height: 300px;
+    overflow: auto;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 1px solid rgba(0,0,0,.15);
+    padding: 5px 0;
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    border-radius: 4px;
+    background-color: #ffffff;
+    z-index: 1;
+}
+
+.suggest-box .dropdown .item
+{
+    padding: 3px 12px;
+    cursor: pointer;
+}
+
+.suggest-box .dropdown .item:hover
+{
+    background-color: #F5F5F5;
+}
+
+.suggest-box .dropdown .item.sb-list-item-checked
+{
+    background-color: #8493a8;
+    color: #ffffff;
+}
+
+.suggest-box .dropdown .item.sb-list-item-highlight
+{
+    background-color: #AAAAAA;
+}

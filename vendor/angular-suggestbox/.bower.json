@@ -1,0 +1,39 @@
+{
+  "name": "angular-suggestbox",
+  "version": "0.2.4",
+  "description": "angular suggestbox, multiselect dropdown with customizable layout",
+  "main": "server/server.js",
+  "authors": [
+    "ascarbek@gmail.com"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "angular",
+    "dropdown",
+    "multiselect",
+    "combobox",
+    "autocomplete"
+  ],
+  "homepage": "https://github.com/Ascarbek/suggestbox",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "font-awesome": "~4.5.0"
+  },
+  "_release": "0.2.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.2.4",
+    "commit": "24f07ed374ebff9e8fdc66aab08a8b829c30b1a1"
+  },
+  "_source": "git://github.com/Ascarbek/suggestbox.git",
+  "_target": "~0.2.2",
+  "_originalSource": "angular-suggestbox"
+}

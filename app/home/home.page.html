@@ -1,0 +1,28 @@
+<div style="background:  url('image/suggestbox-hero.png') no-repeat scroll top center;padding-top: 100px; min-height: 712px;">
+    <div class="page-title">Angular SuggestBox</div>
+    <div class="example-block2">
+        <div style="text-shadow: 0 0 3px #aaa; margin-bottom: 8px;">Select City:</div>
+        <div
+                az-suggest-box
+                sb-list="vm.cities"
+                sb-model="vm.model"
+                class="suggest-box"
+                sb-is-open="true"
+                sb-selected-list-item-class="sb-list-item-checked"
+        >
+
+            <div class="select">
+                <div class="input">
+                    <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>
+                    <input sb-trigger-area sb-type-ahead tabindex="1">
+                </div>
+
+                <button sb-trigger-area><i class="fa fa-chevron-down"></i></button>
+            </div>
+
+            <ul class="dropdown">
+                <li sb-dropdown-item class="item">{{i.name}}</li>
+            </ul>
+        </div>
+    </div>
+</div>

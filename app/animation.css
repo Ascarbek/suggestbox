@@ -1,0 +1,40 @@
+.transition-20
+{
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.transition-500
+{
+    -webkit-transition: all 5s ease-in-out;
+    transition: all 5s ease-in-out;
+}
+
+.fade
+{
+
+}
+
+.fade.ng-hide-remove,
+.fade.ng-leave
+{
+    opacity: 0;
+}
+
+.fade.ng-hide-remove-active,
+.fade.ng-leave-active
+{
+    opacity: 1;
+}
+
+.fade.ng-hide-add,
+.fade.ng-enter
+{
+    opacity: 1;
+}
+
+.fade.ng-hide-add-active,
+.fade.ng-enter-active
+{
+    opacity: 0;
+}
