@@ -16,23 +16,31 @@
     <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="app/animation.css">
     <link rel="stylesheet" href="app/demo.css">
+    <link rel="stylesheet" href="app/navbar.css">
+    <link rel="stylesheet" href="app/documentation/documentation.style.css">
+    <link rel="stylesheet" href="app/home/home.style.css">
+    <link rel="stylesheet" href="app/examples/examples.style.css">
     <!-- endinject -->
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,500italic,400italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700,300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700' rel='stylesheet' type='text/css'>
 </head>
-<body style="padding: 0; margin: 0; font-family: 'Open Sans', sans-serif;">
+
+<body>
 
 <div class="navbar">
-    <div class="item" ng-click="vm.currentPage = 'home'">Home</div>
-    <div class="item" ng-click="vm.currentPage = 'examples'">Examples</div>
-    <div class="item" ng-click="vm.currentPage = 'documentation'">Documentation</div>
-    <div class="item" ng-click="vm.currentPage = 'tutorial'">Tutorial</div>
+    <div class="item" ng-click="vm.currentPage = 'home'" ng-class="{'active': vm.currentPage == 'home'}">Home</div>
+    <div class="item" ng-click="vm.currentPage = 'examples'" ng-class="{'active': vm.currentPage == 'examples'}">Examples</div>
+    <div class="item" ng-click="vm.currentPage = 'documentation'" ng-class="{'active': vm.currentPage == 'documentation'}">Documentation</div>
+    <div class="item" ng-click="vm.currentPage = 'tutorial'" ng-class="{'active': vm.currentPage == 'tutorial'}">Tutorial</div>
 </div>
 
-<div ng-include="'app/home/home.page.html'" ng-show="vm.currentPage == 'home'" class="transition-20 fade"></div>
+<div ng-include="'app/home/home.page.html'" ng-show="vm.currentPage == 'home'" class="page-content transition-20 fade"></div>
+<div ng-include="'app/examples/examples.page.html'" ng-show="vm.currentPage == 'examples'" class="page-content transition-20 fade"></div>
+<div ng-include="'app/documentation/documentation.page.html'" ng-show="vm.currentPage == 'documentation'" class="page-content transition-20 fade"></div>
 
 </body>
 </html>

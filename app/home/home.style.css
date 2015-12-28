@@ -1,0 +1,35 @@
+.home
+{
+    background: url('../../image/suggestbox-hero.jpg') no-repeat scroll top center;
+    padding-top: 100px;
+    min-height: 800px;
+}
+
+.home .page-title
+{
+    font-family: 'Roboto Slab', serif;
+    font-size: 49px;
+    width: 600px;
+    margin: 0 auto 0;
+}
+
+.home .small
+{
+    color: #ab0e06;
+    width: 600px;
+    margin: 0 auto 8px;
+    text-align: right;
+    font-family: 'Roboto Slab', serif;
+}
+
+.home .example-block
+{
+    width: 500px;
+    margin: 0 auto;
+}
+
+.home .example-block .title
+{
+    text-shadow: 0 0 3px #aaa;
+    margin-bottom: 8px;
+}

@@ -1,0 +1,46 @@
+.examples
+{
+    width: 900px;
+    margin: 0 auto;
+    padding-top: 50px;
+}
+
+.examples .page-title
+{
+    font-size: 33px;
+    margin-bottom: 17px;
+    font-weight: 600;
+}
+
+.examples .title
+{
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.examples .desc
+{
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.examples .label
+{
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.examples .row
+{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.examples .row .col
+{
+    width: 49%;
+}

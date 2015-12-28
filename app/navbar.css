@@ -1,0 +1,31 @@
+.navbar
+{
+    font-family: 'Ubuntu', sans-serif;
+    width: 800px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+     border-bottom: #ebeef0 2px solid;
+}
+
+.navbar .item
+{
+    color: #7b8a97;
+    padding: 15px 30px;
+    border-bottom: transparent 2px solid;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.navbar .item:hover
+{
+    color: #46b7c7;
+    border-bottom-color: #46b7c7;
+}
+
+.navbar .item.active
+{
+    background-color: #ebeef0;
+}

@@ -1,0 +1,69 @@
+.documentation
+{
+    width: 900px;
+    margin: 0 auto;
+    padding-top: 50px;
+}
+
+.documentation .page-title
+{
+    font-size: 33px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.documentation .desc
+{
+    margin-bottom: 15px;
+}
+
+.documentation .table
+{
+
+}
+
+.documentation .table table
+{
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Roboto Mono', serif;
+}
+
+.documentation .table table thead
+{
+
+}
+
+.documentation .table table thead tr
+{
+
+}
+
+.documentation .table table thead tr th
+{
+    padding: 6px;
+    border: #ddd 1px solid;
+    font-weight: bold;
+}
+
+.documentation .table table tbody
+{
+
+}
+
+.documentation .table table tbody tr
+{
+
+}
+
+.documentation .table table tbody tr:nth-child(2n)
+{
+    background-color: #f8f8f8;
+}
+
+.documentation .table table tbody tr td
+{
+    padding: 6px 12px;
+    border: #ddd 1px solid;
+    font-size: 12px;
+}

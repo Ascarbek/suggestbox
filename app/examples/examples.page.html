@@ -1,3 +1,51 @@
-<div>
+<div class="examples">
+    <div class="page-title">Examples</div>
+    <div class="row">
+        <div class="col">
+            <div class="title">Basic example</div>
+            <div class="desc">Minimum setup. Can select multiple items. Selected items will be hidden from dropdown list.</div>
+            <div class="label">Select city:</div>
+            <div
+                    az-suggest-box
+                    sb-list="vm.names"
+                    class="suggest-box">
+                <div class="select">
+                    <div class="input">
+                        <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>
+                        <input sb-trigger-area sb-type-ahead tabindex="1">
+                    </div>
 
+                    <button sb-trigger-area><i class="fa fa-chevron-down"></i></button>
+                </div>
+
+                <ul class="dropdown">
+                    <li sb-dropdown-item class="item">{{i.name}} ({{i.email}})</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="title">Check dropdown item example</div>
+            <div class="desc">Custom selected list item class. In this example selected items will have different background specified in css.</div>
+            <div class="label">Select city:</div>
+            <div
+                    az-suggest-box
+                    sb-list="vm.names"
+                    sb-selected-list-item-class="sb-list-item-checked"
+                    class="suggest-box">
+                <div class="select">
+                    <div class="input">
+                        <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>
+                        <input sb-trigger-area sb-type-ahead tabindex="1">
+                    </div>
+
+                    <button sb-trigger-area><i class="fa fa-chevron-down"></i></button>
+                </div>
+
+                <ul class="dropdown">
+                    <li sb-dropdown-item class="item">{{i.name}} ({{i.email}})</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
