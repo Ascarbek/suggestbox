@@ -1,0 +1,57 @@
+.page-title
+{
+    text-align: center;
+    font-size: 20px;
+    text-shadow: 0 0 3px #aaa;
+    margin: 44px auto;
+    width: 800px;
+}
+
+.example-block
+{
+    width: 500px;
+    margin: 0 auto 40px;
+}
+
+.example-block2
+{
+    width: 500px;
+    margin: 0 auto;
+}
+
+.example-block .title
+{
+    font-family: 'Slabo 27px', serif;
+    margin-bottom: 7px;
+}
+
+.navbar
+{
+    font-family: 'Ubuntu', sans-serif;
+    width: 800px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto 10px;
+}
+
+.navbar .item
+{
+    color: #7b8a97;
+    padding: 10px;
+    border-bottom: transparent 2px solid;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.navbar .item:hover
+{
+    color: #46b7c7;
+    border-bottom-color: #46b7c7;
+}
+
+.ui-main
+{
+    padding: 20px;
+}

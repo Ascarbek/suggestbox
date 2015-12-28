@@ -37,10 +37,13 @@ gulp.task('inject-dev', ['build-dev'], function(){
             gulp.src(['src/js/*.js', '!src/js/module.js'], {read: false}),
             gulp.src(['src/demo/demo.js'], {read: false})
         ), {relative : true, ignorePath: 'src'}))
-        .pipe(inject(series(
-            gulp.src(['src/vendor/**/*min.css'], {read: false}),
-            gulp.src(['src/css/*.css'], {read: false})
-        ), {relative: true, ignorePath: 'src'}))
+        .pipe(inject(
+            gulp.src([
+                'src/vendor/**/*min.css',
+                'src/css/suggest.box.css',
+                'src/demo/demo.css'
+            ], {read: false}), {relative: true, ignorePath: 'src'}
+        ))
         .pipe(gulp.dest('src'));
 });
 
@@ -75,10 +78,11 @@ gulp.task('build-prod', ['copy-prod'], function(){
                 .pipe(uglify())
                 .pipe(gulp.dest('dist'))
         ),es.merge(
-            gulp.src('src/css/*.css')
-                .pipe(concat('suggest.box.css'))
+            gulp.src('src/css/suggest.box.css')
                 .pipe(gulp.dest('dist')),
-            gulp.src('src/css/*.css')
+            gulp.src('src/demo/demo.css')
+                .pipe(gulp.dest('dist')),
+            gulp.src('src/css/suggest.box.css')
                 .pipe(concat('suggest.box.min.css'))
                 .pipe(nano())
                 .pipe(gulp.dest('dist'))
@@ -93,7 +97,7 @@ gulp.task('inject-prod', ['build-prod'], function(){
         .pipe(inject(series(
             gulp.src(['dist/vendor/angular/angular.min.js'], {read : false}),
             gulp.src(['dist/vendor/**/*min.js', '!dist/vendor/angular/angular.min.js'], {read : false}),
-            gulp.src(['dist/suggest.box.min.js'], {read: false}),
+            gulp.src(['dist/suggest.box.js'], {read: false}),
             gulp.src(['dist/demo.js'], {read: false})
         ), {relative : false, ignorePath: 'dist'}))
         .pipe(inject(series(
