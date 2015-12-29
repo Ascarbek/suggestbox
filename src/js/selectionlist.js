@@ -31,6 +31,9 @@
                             newScope[modelAlias] = currentModel;
 
                             newScope.$index = i; //reserved word
+                            newScope.$first = i==0;
+                            newScope.$last = i==scope.model.length-1;
+
                             transclude(newScope, function (clone, scope) {
                                 scope.sbRemoveItemFromSelection = function(){
                                     //scope.suppressSyncing();
