@@ -118,14 +118,6 @@
                     });
 
                     scope.toggleItemSelection = function(itemId){
-                        if(scope.sbMaxSelection == 1){
-                            scope.indexes.forEach(function(m){
-                                scope.unSelectListItem(m);
-                            });
-                            scope.indexes.splice(0, scope.indexes.length);
-                            scope.model.splice(0, scope.model.length);
-                        }
-
                         if(scope.sbAllowDuplicates){
                             scope.indexes.push(itemId);
                             scope.model.push(scope.list[itemId]);
@@ -150,6 +142,14 @@
                                 }
                             }
                             if(!isFound){
+                                if(scope.sbMaxSelection == 1){
+                                    scope.indexes.forEach(function(m){
+                                        scope.unSelectListItem(m);
+                                    });
+                                    scope.indexes.splice(0, scope.indexes.length);
+                                    scope.model.splice(0, scope.model.length);
+                                }
+
                                 scope.indexes.push(itemId);
                                 scope.model.push(scope.list[itemId]);
                                 scope.model[scope.model.length-1].$listIndex = itemId;
@@ -300,9 +300,11 @@
                             newScope[modelAlias] = currentModel;
 
                             newScope.$index = i; //reserved word
+                            newScope.$first = i==0;
+                            newScope.$last = i==scope.model.length-1;
+
                             transclude(newScope, function (clone, scope) {
                                 scope.sbRemoveItemFromSelection = function(){
-                                    //scope.suppressSyncing();
                                     if(scope[modelAlias].$listIndex){
                                         scope.unSelectListItem(scope[modelAlias].$listIndex);
                                         for(var l=0; l<scope.indexes.length; l++){
