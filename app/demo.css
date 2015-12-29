@@ -25,3 +25,15 @@ body
     left: 0;
     right: 0;
 }
+
+.hljs
+{
+    font-family: 'Roboto Mono', monospace;
+    font-size: 12px;
+}
+
+.hljs.html
+{
+    padding: 10px;
+    border-radius: 6px;
+}

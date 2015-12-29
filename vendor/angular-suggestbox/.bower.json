@@ -1,6 +1,6 @@
 {
   "name": "angular-suggestbox",
-  "version": "0.2.4",
+  "version": "0.2.7",
   "description": "angular suggestbox, multiselect dropdown with customizable layout",
   "main": "server/server.js",
   "authors": [
@@ -27,11 +27,11 @@
     "angular": "~1.4.8",
     "font-awesome": "~4.5.0"
   },
-  "_release": "0.2.4",
+  "_release": "0.2.7",
   "_resolution": {
     "type": "version",
-    "tag": "v0.2.4",
-    "commit": "24f07ed374ebff9e8fdc66aab08a8b829c30b1a1"
+    "tag": "v0.2.7",
+    "commit": "65fd1e725d5d00323fabce755847b9bd763ce799"
   },
   "_source": "git://github.com/Ascarbek/suggestbox.git",
   "_target": "~0.2.2",

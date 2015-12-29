@@ -1,37 +1,17 @@
 <div class="examples">
-    <div class="page-title">Examples</div>
+    <div class="page-title">List of Examples:</div>
+    <div class="title">Basic example</div>
+    <div class="desc">Minimum setup. Can select multiple items. Selected items will be hidden from dropdown list.</div>
     <div class="row">
-        <div class="col">
-            <div class="title">Basic example</div>
-            <div class="desc">Minimum setup. Can select multiple items. Selected items will be hidden from dropdown list.</div>
-            <div class="label">Select city:</div>
-            <div
-                    az-suggest-box
-                    sb-list="vm.names"
-                    class="suggest-box">
-                <div class="select">
-                    <div class="input">
-                        <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>
-                        <input sb-trigger-area sb-type-ahead tabindex="1">
-                    </div>
+        <div class="col hljs html" ng-bind-html="vm.code1">
 
-                    <button sb-trigger-area><i class="fa fa-chevron-down"></i></button>
-                </div>
-
-                <ul class="dropdown">
-                    <li sb-dropdown-item class="item">{{i.name}} ({{i.email}})</li>
-                </ul>
-            </div>
         </div>
 
         <div class="col">
-            <div class="title">Check dropdown item example</div>
-            <div class="desc">Custom selected list item class. In this example selected items will have different background specified in css.</div>
             <div class="label">Select city:</div>
             <div
                     az-suggest-box
-                    sb-list="vm.names"
-                    sb-selected-list-item-class="sb-list-item-checked"
+                    sb-list="vm.cities"
                     class="suggest-box">
                 <div class="select">
                     <div class="input">
@@ -43,9 +23,111 @@
                 </div>
 
                 <ul class="dropdown">
-                    <li sb-dropdown-item class="item">{{i.name}} ({{i.email}})</li>
+                    <li sb-dropdown-item class="item">{{i.name}}</li>
                 </ul>
             </div>
         </div>
     </div>
+
+    <div class="title">ComboBox</div>
+    <div class="desc">
+        ComboBox behaviour (<span style="font-family: monospace">maxSelection=1, closeListOnSelect=true</span>).
+        Selected item will have different background (<span style="font-family: monospace">selectedListItemClass="sb-list-item-checked"</span>).
+    </div>
+    <div class="row">
+        <div class="col hljs html" ng-bind-html="vm.code2">
+
+        </div>
+
+        <div class="col">
+            <div class="label">Select city:</div>
+            <div
+                    az-suggest-box
+                    sb-list="vm.cities"
+                    sb-selected-list-item-class="sb-list-item-checked"
+                    sb-close-list-on-select="true"
+                    sb-max-selection="1"
+                    class="suggest-box">
+                <div sb-trigger-area class="select">
+                    <div class="input">
+                        <div sb-selection-item >{{s.name}}</div>
+                        <input sb-type-ahead tabindex="2">
+                    </div>
+
+                    <button ><i class="fa fa-chevron-down"></i></button>
+                </div>
+
+                <ul class="dropdown">
+                    <li sb-dropdown-item class="item">{{i.name}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="title">MultiSelect</div>
+    <div class="desc">
+        Example without searchBox. Used for small amount of list items. Selected items will be displayed as comma separated text.
+        Such layout can be used as a filter component for table (grid).
+    </div>
+    <div class="row">
+        <div class="col hljs html" ng-bind-html="vm.code3">
+
+        </div>
+
+        <div class="col">
+            <div class="label">Select status:</div>
+            <div
+                    az-suggest-box
+                    sb-list="vm.statuses"
+                    sb-selected-list-item-class="sb-list-item-checked"
+                    class="suggest-box">
+                <div class="select" sb-trigger-area>
+                    <div class="input">
+                        <div sb-selection-item>{{s.name}}<span ng-if="!$last">,&nbsp;</span></div>
+                    </div>
+
+                    <button><i class="fa fa-chevron-down"></i></button>
+                </div>
+
+                <ul class="dropdown">
+                    <li sb-dropdown-item class="item">{{i.name}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="title">Custom layout Examples</div>
+    <div class="desc">
+       not completed...
+    </div>
+    <div class="row">
+        <div class="col hljs html" ng-bind-html="vm.code5">
+
+        </div>
+
+        <div class="col">
+            <div class="label">Select person:</div>
+            <div
+                    az-suggest-box
+                    sb-list="vm.names"
+                    sb-selected-list-item-class="sb-list-item-checked"
+                    sb-max-selection="1"
+                    class="suggest-box">
+                <div class="select">
+                    <div class="input">
+                        <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>
+                        <input sb-trigger-area sb-type-ahead tabindex="1">
+                    </div>
+
+                    <button sb-trigger-area><i class="fa fa-chevron-down"></i></button>
+                </div>
+
+                <ul class="dropdown">
+                    <li sb-dropdown-item class="item">{{i.name}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-footer"></div>
 </div>

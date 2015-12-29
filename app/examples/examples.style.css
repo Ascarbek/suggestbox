@@ -1,6 +1,6 @@
 .examples
 {
-    width: 900px;
+    width: 1100px;
     margin: 0 auto;
     padding-top: 50px;
 }
@@ -38,9 +38,15 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
+    margin-bottom: 30px;
 }
 
 .examples .row .col
 {
     width: 49%;
+}
+
+.examples .page-footer
+{
+    padding-bottom: 200px;
 }
