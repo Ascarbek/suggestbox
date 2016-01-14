@@ -98,10 +98,11 @@
 
     <div class="title">Custom layout Examples</div>
     <div class="desc">
-       not completed...
+        In this example items in the dropdown list has custom layout. All styles are written as inline style so you can copy it. Best practice would be
+        keeping those styles in a separate css.
     </div>
     <div class="row">
-        <div class="col hljs html" ng-bind-html="vm.code5">
+        <div class="col hljs html" ng-bind-html="vm.code4">
 
         </div>
 
@@ -123,7 +124,34 @@
                 </div>
 
                 <ul class="dropdown">
-                    <li sb-dropdown-item class="item">{{i.name}}</li>
+                    <li sb-dropdown-item class="item" style="
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 8px 12px;
+                      ">
+                        <div style="margin-right: 10px;">
+                            <button style="
+
+    color: #ffffff;
+    background-color: #fc9282;
+    text-align: center;
+    width: 45px;
+    height: 45px;
+    font-size: 24px;
+    border-radius: 50%;
+    box-shadow: 0 1px 4px #a5a5a5;
+    ">
+                                <i class="fa fa-user"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <div><span style="color: #ccc; padding-right: 10px;">Name:</span><span>{{i.name}}</span></div>
+                            <div><span style="color: #ccc; padding-right: 10px;">Email:</span><span>{{i.email}}</span></div>
+                        </div>
+
+                    </li>
                 </ul>
             </div>
         </div>

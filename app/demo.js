@@ -549,13 +549,29 @@
                 '</div>'
             ).value);
 
-
-
-
-/*
-            vm.code3 = hljs.fixMarkup(hljs.highlight('html',
-                ''
+            vm.code4 = hljs.fixMarkup(hljs.highlight('html',
+                '<div az-suggest-box sb-list="vm.names" sb-selected-list-item-class="sb-list-item-checked" sb-max-selection="1" class="suggest-box">\r\n'+
+                '\t<div class="select">\r\n'+
+                '\t\t<div class="input">\r\n'+
+                '\t\t\t<div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>\r\n'+
+                '\t\t\t<input sb-trigger-area sb-type-ahead tabindex="1">\r\n'+
+                '\t\t</div>\r\n'+
+                '\t\t<button sb-trigger-area><i class="fa fa-chevron-down"></i></button>\r\n'+
+                '\t</div>\r\n'+
+                '\t<ul class="dropdown">\r\n'+
+                '\t\t<li sb-dropdown-item class="item" style="display: flex; flex-direction: row; align-items: center; justify-content: flex-start; padding: 8px 12px;">\r\n'+
+                '\t\t\t<div style="margin-right: 10px;">\r\n'+
+                '\t\t\t\t<button style="color: #ffffff; background-color: #fc9282; text-align: center; width: 45px; height: 45px; font-size: 24px; border-radius: 50%; box-shadow: 0 1px 4px #a5a5a5;">\r\n'+
+                '\t\t\t\t\t<i class="fa fa-user"></i>\r\n'+
+                '\t\t\t\t</button>\r\n'+
+                '\t\t\t</div>\r\n'+
+                '\t\t\t<div>\r\n'+
+                '\t\t\t\t<div><span style="color: #ccc; padding-right: 10px;">Name:</span><span>{{i.name}}</span></div>\r\n'+
+                '\t\t\t\t<div><span style="color: #ccc; padding-right: 10px;">Email:</span><span>{{i.email}}</span></div>\r\n'+
+                '\t\t\t</div>\r\n'+
+                '\t\t</li>\r\n'+
+                '\t</ul>\r\n'+
+                '</div>'
             ).value);
-*/
         }]);
 })();
