@@ -6,15 +6,25 @@
 
     <!-- inject:js -->
     <script src="vendor/angular/angular.min.js"></script>
-    <script src="vendor/angular-animate/angular-animate.min.js"></script>
     <script src="vendor/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="vendor/angular-animate/angular-animate.min.js"></script>
     <script src="vendor/angular-suggestbox/dist/suggest.box.min.js"></script>
+    <script src="vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="app/demo.js"></script>
+    <script src="app/state.helper.js"></script>
+    <script src="app/documentation/documentation.controller.js"></script>
+    <script src="app/documentation/documentation.route.js"></script>
+    <script src="app/examples/examples.controller.js"></script>
+    <script src="app/examples/examples.route.js"></script>
+    <script src="app/home/home.controller.js"></script>
+    <script src="app/home/home.route.js"></script>
+    <script src="app/tutorial/tutorial.controller.js"></script>
+    <script src="app/tutorial/tutorial.route.js"></script>
     <!-- endinject -->
 
     <!-- inject:css -->
-    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="vendor/angular-suggestbox/dist/suggest.box.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="app/animation.css">
     <link rel="stylesheet" href="app/demo.css">
     <link rel="stylesheet" href="app/navbar.css">
@@ -38,15 +48,15 @@
 <body>
 
 <div class="navbar">
-    <div class="item" ng-click="vm.currentPage = 'home'" ng-class="{'active': vm.currentPage == 'home'}">Home</div>
-    <div class="item" ng-click="vm.currentPage = 'examples'" ng-class="{'active': vm.currentPage == 'examples'}">Examples</div>
-    <div class="item" ng-click="vm.currentPage = 'documentation'" ng-class="{'active': vm.currentPage == 'documentation'}">Documentation</div>
-    <div class="item" ng-click="vm.currentPage = 'tutorial'" ng-class="{'active': vm.currentPage == 'tutorial'}">Tutorial</div>
+    <div class="item" ui-sref-active="active" ui-sref="home">Home</div>
+    <div class="item" ui-sref-active="active" ui-sref="examples" >Examples</div>
+    <div class="item" ui-sref-active="active" ui-sref="documentation">Documentation</div>
+    <div class="item" ui-sref-active="active" ui-sref="tutorial">Tutorial</div>
 </div>
 
-<div ng-include="'app/home/home.page.html'" ng-show="vm.currentPage == 'home'" class="page-content transition-20 fade"></div>
-<div ng-include="'app/examples/examples.page.html'" ng-show="vm.currentPage == 'examples'" class="page-content transition-20 fade"></div>
-<div ng-include="'app/documentation/documentation.page.html'" ng-show="vm.currentPage == 'documentation'" class="page-content transition-20 fade"></div>
+<div ui-view="main" class="transition-20 fade">
+
+</div>
 
 </body>
 </html>

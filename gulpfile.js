@@ -19,7 +19,8 @@ gulp.task('inject-prod', function(){
         .pipe(inject(series(
             gulp.src(['vendor/angular/angular.min.js'], {read : false}),
             gulp.src(['vendor/**/*min.js', '!vendor/angular/angular.min.js'], {read : false}),
-            gulp.src(['app/demo.js'], {read: false})
+            gulp.src(['app/demo.js'], {read: false}),
+            gulp.src(['app/**/*.js', '!app/demo.js'], {read: false})
         ), {relative : true}))
         .pipe(inject(series(
             gulp.src(['vendor/**/*min.css'], {read: false}),

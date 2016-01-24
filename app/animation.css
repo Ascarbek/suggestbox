@@ -10,36 +10,36 @@
     transition: all 5s ease-in-out;
 }
 
-.fade
+.fade.ng-animate
 {
-
+    position: absolute;
+    margin: auto;
+    width: 100%;
 }
 
-.fade.ng-hide-remove,
 .fade.ng-leave
 {
-    opacity: 0;
-    transform: translateY(30px);
+    opacity: 1;
+    transform: translateY(0);
+
 }
 
-.fade.ng-hide-remove-active,
 .fade.ng-leave-active
 {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 0;
+    transform: translateY(30px);
 }
 
-.fade.ng-hide-add,
 .fade.ng-enter
-{
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.fade.ng-hide-add-active,
-.fade.ng-enter-active
 {
     opacity: 0;
     transform: translateY(30px);
+
+}
+
+.fade.ng-enter-active
+{
+    opacity: 1;
+    transform: translateY(0);
 }
 
