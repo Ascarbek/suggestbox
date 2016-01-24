@@ -125,33 +125,30 @@
                             }
                             else{
                                 var listItem = scope.list[i];
-                                if(typeof listItem == 'object') {
-                                    for (var key in listItem) {
-                                        if(listItem.hasOwnProperty(key)) {
-                                            var obj;
-                                            if(typeof listItem[key] == 'string') {
-                                                obj = listItem[key].toLowerCase();
-                                            }
-                                            else if(typeof listItem[key] == 'number'){
-                                                obj = listItem[key].toString();
-                                            }
-                                            else{
-                                                continue;
-                                            }
 
-                                            if(obj.search(new RegExp(text)) > -1){
-                                                scope.showListItem(i);
-                                                if(scope.indexes.indexOf(i) == -1) {
-                                                    foundCount++;
-                                                    lastId = i;
-                                                }
+                                for(var sf=0; sf<scope.sbSearchFields.length; sf++){
+                                    var obj, key=scope.sbSearchFields[sf];
+                                    if(typeof listItem[key] == 'string') {
+                                        obj = listItem[key].toLowerCase();
+                                    }
+                                    else if(typeof listItem[key] == 'number'){
+                                        obj = listItem[key].toString();
+                                    }
+                                    else{
+                                        continue;
+                                    }
 
-                                                break;
-                                            }
-                                            else{
-                                                scope.hideListItem(i);
-                                            }
+                                    if(obj.search(new RegExp(text)) > -1){
+                                        scope.showListItem(i);
+                                        if(scope.indexes.indexOf(i) == -1) {
+                                            foundCount++;
+                                            lastId = i;
                                         }
+
+                                       break;
+                                    }
+                                    else{
+                                        scope.hideListItem(i);
                                     }
                                 }
                             }

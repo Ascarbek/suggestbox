@@ -29,12 +29,6 @@ So here it is - Angular SuggestBox
 
 # Install
 ```bash
-npm install
-bower install
-gulp
-```
-**OR**
-```bash
 bower install angular-suggestbox
 ```
 
@@ -45,20 +39,22 @@ http://ascarbek.github.io/suggestbox/
 # Documentation
 
 ## Attributes
-+ sb-list-item-alias | string optional 'i'
++ sb-list-item-alias | string optional 'i' |
 + sb-list | Array Required |
-+ sb-model-alias | string optional 's'
++ sb-model-alias | string optional 's' |
 + sb-model | array optional |
-+ sb-selected-indexes | array optional
++ sb-selected-indexes | array optional |
 + sb-max-selection | integer optional 0 |
 + sb-allow-duplicates | boolean optional false |
 + sb-allow-free-text | boolean optional false |
 + sb-allow-add-item | boolean optional false |
 + sb-new-item-field | string optional 'name' |
-+ sb-search-field | string optional null |
-+ sb-select-first-list-item | boolean optional false
++ sb-search-fields | string optional null |
++ sb-key-fields | string optional null |
++ sb-select-first-list-item | boolean optional false |
 + sb-broadcast-event-name | string optional 'azSuggestBoxSelect' |
-+ sb-selected-list-item-class | string optional 'ng-hide'
++ sb-selected-list-item-class | string optional 'ng-hide' |
++ sb-highlighted-list-item-class | string optional 'sb-list-item-highlight |
 + sb-close-list-on-select | boolean optional false |
 + sb-on-selection-change | function optional |
 
@@ -95,8 +91,21 @@ angular
             template: '<div class="suggest-box" az-suggest-box '+
                 'sb-list="listItems" ' +
                 'sb-model="selectedItems" ' +
-                'sb-on-selection-change="onChange()" >'+
-                    '<Here goes the layout. />'+
+                'sb-on-selection-change="onChange()" > ' +
+                    '<div az-suggest-box sb-list="vm.cities" class="suggest-box"> ' +
+                        '<div class="select"> ' +
+                            '<div class="input"> ' +
+                                '<div sb-selection-item class="selection-item"> ' +
+                                    '{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span> ' +
+                                '</div> ' +
+                                '<input sb-trigger-area sb-type-ahead tabindex="1"> ' +
+                            '</div> ' +
+                            '<button sb-trigger-area><i class="fa fa-chevron-down"></i></button> ' +
+                        '</div> ' +
+                        '<ul class="dropdown"> ' +
+                            '<li sb-dropdown-item class="item">{{i.name}}</li> ' +
+                        '</ul> ' +
+                    '</div>'+
                 '</div>'
         }
     }])
@@ -108,10 +117,5 @@ after that the component will look cleaner:
 
 # TODO
 attributes that are currently ignored:
-sb-search-field
 sb-select-first-list-item
 sb-max-selection (except when it's =1 (combo behaviour))
-
-provide readme with basic examples.
-
-add more examples to demo page.
