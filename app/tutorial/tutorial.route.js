@@ -13,7 +13,7 @@
                     title: 'tutorial',
                     views: {
                         main: {
-                            templateUrl: '/app/tutorial/tutorial.page.html',
+                            templateUrl: 'app/tutorial/tutorial.page.html',
                             controller: 'tutorial as vm'
                         }
                     }

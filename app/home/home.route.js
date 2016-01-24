@@ -13,7 +13,7 @@
                     title: 'home',
                     views: {
                         main: {
-                            templateUrl: '/app/home/home.page.html',
+                            templateUrl: 'app/home/home.page.html',
                             controller: 'home as vm'
                         }
                     }

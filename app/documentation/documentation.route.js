@@ -13,7 +13,7 @@
                     title: 'documentation',
                     views: {
                         main: {
-                            templateUrl: '/app/documentation/documentation.page.html',
+                            templateUrl: 'app/documentation/documentation.page.html',
                             controller: 'documentation as vm'
                         }
                     }
