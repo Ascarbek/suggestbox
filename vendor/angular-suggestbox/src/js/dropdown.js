@@ -108,44 +108,45 @@
                     });
 
                     scope.toggleItemSelection = function(itemId){
+                        if(scope.sbCloseListOnSelect) {
+                            scope.closeDropDown();
+                            scope.highlightNone();
+                            scope.$broadcast('clearSearch');
+                        }
+
                         if(scope.sbAllowDuplicates){
                             scope.indexes.push(itemId);
                             scope.model.push(scope.list[itemId]);
                             scope.model[scope.model.length-1].$listIndex = itemId;
+                            return;
                         }
-                        else {
-                            var isFound = false;
 
-                            for(var i=0; i<scope.indexes.length; i++){
-                                if(scope.indexes[i] === itemId){
-                                    scope.indexes.splice(i, 1);
-                                    scope.unSelectListItem(itemId);
-                                    isFound = true;
-                                    break;
-                                }
-                            }
-                            if(isFound) {
+                        for(var i=0; i<scope.indexes.length; i++){
+                            if(scope.indexes[i] === itemId){
+                                scope.indexes.splice(i, 1);
+                                scope.unSelectListItem(itemId);
                                 for (var ii = 0; ii < scope.model.length; ii++) {
                                     if(scope.model[ii].$listIndex == itemId){
                                         scope.model.splice(ii, 1);
                                     }
                                 }
-                            }
-                            if(!isFound){
-                                if(scope.sbMaxSelection == 1){
-                                    scope.indexes.forEach(function(m){
-                                        scope.unSelectListItem(m);
-                                    });
-                                    scope.indexes.splice(0, scope.indexes.length);
-                                    scope.model.splice(0, scope.model.length);
-                                }
-
-                                scope.indexes.push(itemId);
-                                scope.model.push(scope.list[itemId]);
-                                scope.model[scope.model.length-1].$listIndex = itemId;
-                                scope.highlightNone();
+                                return;
                             }
                         }
+
+                        if(scope.sbMaxSelection == 1){
+                            scope.indexes.forEach(function(m){
+                                scope.unSelectListItem(m);
+                            });
+                            scope.indexes.splice(0, scope.indexes.length);
+                            scope.model.splice(0, scope.model.length);
+                        }
+
+                        scope.indexes.push(itemId);
+                        scope.model.push(scope.list[itemId]);
+                        scope.model[scope.model.length-1].$listIndex = itemId;
+                        scope.highlightNone();
+
                     };
 
                     scope.highlightNone = function(){

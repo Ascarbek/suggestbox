@@ -13,7 +13,7 @@
                 scope: {
                     listAlias: '@sbListItemAlias',
                     list: '=sbList',
-                    indexesAlias: '@sbModelAlias',
+                    modelAlias: '@sbModelAlias',
                     model: '=sbModel',
                     indexes: '=sbSelectedIndexes',
                     sbMaxSelection: '=',
@@ -21,7 +21,8 @@
                     sbAllowFreeText: '=',
                     sbAllowAddItem: '=',
                     sbNewItemField: '@',
-                    sbSearchFields: '@',
+                    sbSearchFieldsRaw: '@sbSearchFields',
+                    sbKeyFieldsRaw: '@sbKeyFields',
                     sbSelectFirstListItem: '=',
                     sbBroadcastEventName: '@',
                     sbSelectedListItemClass: '@',
@@ -33,15 +34,21 @@
                 link: function(scope){
                     scope.init();
                 },
-                controller: ['$window', '$rootScope', '$scope', '$element', '$transclude', '$timeout', function($window, $rootScope, $scope, $element, $transclude, $timeout){
+                controller: ['$document', '$rootScope', '$scope', '$element', '$transclude', '$timeout', function($document, $rootScope, $scope, $element, $transclude, $timeout){
 
                     $scope.init = function() {
+                        /*
+                        * Required attribute
+                        * */
                         if($scope.list === undefined){
                             throw "sb-list attribute must be set";
                         }
 
+                        /*
+                        * Default values
+                        * */
                         $scope.listAlias = $scope.listAlias || 'i';
-                        $scope.indexesAlias = $scope.indexesAlias || 's';
+                        $scope.modelAlias = $scope.modelAlias || 's';
                         $scope.indexes = $scope.indexes || [];
                         $scope.model = $scope.model || [];
                         $scope.sbMaxSelection = $scope.sbMaxSelection || 0;
@@ -49,7 +56,8 @@
                         $scope.sbAllowFreeText = $scope.sbAllowFreeText || false;
                         $scope.sbAllowAddItem = $scope.sbAllowAddItem || false;
                         $scope.sbNewItemField = $scope.sbNewItemField || 'name';
-                        $scope.sbSearchFields = $scope.sbSearchFields || false;
+                        $scope.sbSearchFieldsRaw = $scope.sbSearchFieldsRaw || false;
+                        $scope.sbKeyFieldsRaw = $scope.sbKeyFieldsRaw || false;
                         $scope.sbSelectFirstListItem = $scope.sbSelectFirstListItem || false;
                         $scope.sbBroadcastEventName = $scope.sbBroadcastEventName || 'azSuggestBoxSelect';
                         $scope.sbSelectedListItemClass = $scope.sbSelectedListItemClass || 'ng-hide';
@@ -58,6 +66,27 @@
 
                         $scope.weSentBroadcast = false;
 
+                        /*
+                        * transforming space separated list to array
+                        * */
+                        if($scope.sbKeyFieldsRaw){
+                            $scope.sbKeyFields = $scope.sbKeyFieldsRaw.split(' ');
+                            // validation required
+                        }
+                        else{
+                            $scope.sbKeyFields = [];
+                        }
+
+                        if($scope.sbSearchFieldsRaw){
+                            $scope.sbSearchFields = $scope.sbSearchFieldsRaw.split(' ');
+                        }
+                        else{
+                            $scope.sbSearchFields = [];
+                        }
+
+                        /*
+                        * dropdown state get/setters
+                        * */
                         $scope.closeDropDown = function(){
                             $scope.isOpen = false;
                         };
@@ -84,6 +113,9 @@
                             }
                         });
 
+                        /*
+                        * inserting html layout as is
+                        * */
                         $transclude($scope, function (clone, scope) {
                             $element.append(clone);
                         });
@@ -94,15 +126,28 @@
                                     throw 'sb-list array items should be objects';
                                 }
                             }
+                            /*
+                            * if key or search fields are not specified then using all fields from sb-list array
+                            * */
+                            if($scope.sbKeyFields.length == 0){
+                                if($scope.list.length > 0) {
+                                    for (var key in $scope.list[0]) {           //using first element
+                                        if($scope.list[0].hasOwnProperty(key))
+                                            $scope.sbKeyFields.push(key);
+                                    }
+                                }
+                            }
+                            if($scope.sbSearchFields.length == 0){
+                                if($scope.list.length > 0) {
+                                    for (var key in $scope.list[0]) {
+                                        if($scope.list[0].hasOwnProperty(key))
+                                            $scope.sbSearchFields.push(key);
+                                    }
+                                }
+                            }
                         });
 
                         $scope.$watchCollection('indexes', function () {
-                            if($scope.sbCloseListOnSelect) {
-                                $scope.closeDropDown();
-                                $scope.highlightNone();
-                                $scope.$broadcast('clearSearch');
-                            }
-
                             if(!$scope.sbAllowDuplicates) {
                                 for(var l=0; l<$scope.list.length; l++){
                                     $scope.unSelectListItem(l);
@@ -112,21 +157,24 @@
                                 });
                             }
 
+                            /*
+                            * synchronizing model and indexes
+                            * */
                             var left = [];
                             for (var m = 0; m < $scope.model.length; m++) {
                                 if (typeof $scope.model[m].$listIndex == 'number') {
                                     if ($scope.indexes.indexOf($scope.model[m].$listIndex) == -1) {
-                                        $scope.model.splice(m, 1);
+                                        $scope.model.splice(m, 1);                 // removing not found model element
                                         m--;
                                     }
                                     else{
-                                        left[$scope.model[m].$listIndex] = true;
+                                        left[$scope.model[m].$listIndex] = true;   // marking existing element
                                     }
                                 }
                             }
                             for(var i=0; i<$scope.indexes.length; i++){
                                 if(!left[$scope.indexes[i]]){
-                                    $scope.model.push($scope.list[$scope.indexes[i]]);
+                                    $scope.model.push($scope.list[$scope.indexes[i]]);                    // adding not existing element
                                     $scope.model[$scope.model.length-1].$listIndex = $scope.indexes[i];
                                 }
                             }
@@ -135,44 +183,71 @@
                         $scope.$watchCollection('model', function(){
                             $scope.sbOnSelectionChange();
 
-                            $scope.indexes.splice(0, $scope.indexes.length);
-                            for(var m=0; m<$scope.model.length; m++) {
-                                var found = false;
+                            /*
+                             * synchronizing model and indexes
+                             * */
+                            var left = [];
+                            for (var i = 0; i < $scope.indexes.length; i++){
                                 var foundIndex = -1;
-                                for(var i=0; i<$scope.list.length; i++){
+                                for(var im = 0; im < $scope.model.length; im++){
                                     var isEqual = true;
-                                    var curItem = $scope.list[i];
-                                    var curModel = $scope.model[m];
-                                    for (var key in curItem) {
-                                        if(curItem.hasOwnProperty(key)) {
-                                            if (curItem[key] !== curModel[key]) {
-                                                isEqual = false;
-                                                break;
-                                            }
+                                    $scope.sbKeyFields.forEach(function(kf){
+                                        if($scope.list[$scope.indexes[i]][kf] != $scope.model[im][kf]){
+                                            isEqual = false;
                                         }
-                                    }
+                                    });
                                     if(isEqual){
-                                        found = true;
-                                        foundIndex = i;
+                                        foundIndex = im;
                                         break;
                                     }
                                 }
-                                if(found){
-                                    $scope.model[m].$listIndex = foundIndex;
-                                    $scope.indexes.push(foundIndex);
+                                if(foundIndex == -1){
+                                    $scope.indexes.splice(i, 1);      // removing not found model element
+                                    i--;
                                 }
                                 else{
-                                    $scope.model[m].$isNew = true;
+                                    left[foundIndex] = true;          // marking existing element
+                                }
+                            }
+                            for (var m = 0; m < $scope.model.length; m++) {
+                                if(!left[m]){
+                                    if($scope.model[m].$listIndex) {
+                                        $scope.indexes.push($scope.model[m].$listIndex);   // adding not existing element using $listIndex
+                                    }
+                                    else{                                                  // if there is no $listIndex then need to search throw main list
+                                        var foundIndex = -1;
+                                        for (var l = 0; l < $scope.list.length; l++) {
+                                            var isEqual = true;
+                                            var curItem = $scope.list[l];
+                                            var curModel = $scope.model[m];
+                                            $scope.sbKeyFields.forEach(function(kf){
+                                                if(curItem[kf] != curModel[kf]){
+                                                    isEqual = false;
+                                                }
+                                            });
+                                            if(isEqual){
+                                                foundIndex = l;
+                                                break;
+                                            }
+                                        }
+                                        if(foundIndex > -1){
+                                            $scope.model[m].$listIndex = foundIndex;               // add $listIndex field for future use
+                                            $scope.indexes.push(foundIndex);
+                                        }
+                                        else{
+                                            $scope.model[m].$isNew = true;
+                                        }
+                                    }
                                 }
                             }
                         });
 
-                        $window.onclick = function(e){
+                        $document.on('click',function(e){               // handler to close SuggestBox on document click
                             var el = e.target;
                             var isClickedOnSB = false;
                             do{
                                 if(el.attributes){
-                                    if((el.attributes['az-suggest-box'])||(el.attributes['sb-selection-item'])||(el.attributes['sb-trigger-area'])){
+                                    if((el.attributes['az-suggest-box'])||(el.attributes['sb-selection-item'])||(el.attributes['sb-trigger-area'])){  // if clicked inside the SuggestBox then no need to interfere
                                         isClickedOnSB = true;
                                         break;
                                     }
@@ -180,13 +255,13 @@
                                 el = el.parentNode;
 
                             } while(el != undefined);
-                            if(!isClickedOnSB){
+                            if(!isClickedOnSB){  // if clicked outside the SuggestBox then send close msg
                                 $rootScope.$broadcast($scope.sbBroadcastEventName);
                             }
-                        };
+                        });
 
-                        $scope.$on($scope.sbBroadcastEventName, function(){
-                            if(!$scope.weSentBroadcast) {
+                        $scope.$on($scope.sbBroadcastEventName, function(){      // handling close msg
+                            if(!$scope.weSentBroadcast) {                        // close other dropdowns on the page except us
                                 $scope.closeDropDown();
                             }
                             $scope.weSentBroadcast = false;

@@ -13,7 +13,7 @@
                 link: function(scope, element, attrs, ctrl, transclude){
 
                     var blocks = [];
-                    var modelAlias = scope.indexesAlias;
+                    var modelAlias = scope.modelAlias;
 
                     scope.$watchCollection('model',function(){
                         for(var b=0; b<blocks.length; b++){
