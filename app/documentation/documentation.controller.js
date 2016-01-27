@@ -7,8 +7,10 @@
     angular
         .module('demo')
         .controller('documentation', ['$scope', function($scope){
-            var vm = this;
+            ga('set', 'page', '/Documentation');
+            ga('send', 'pageview');
 
+            var vm = this;
 
         }]);
 })();

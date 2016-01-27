@@ -7,6 +7,9 @@
     angular
         .module('demo')
         .controller('tutorial', ['$scope', function($scope){
+            ga('set', 'page', '/Tutorial');
+            ga('send', 'pageview');
+
             var vm = this;
 
 

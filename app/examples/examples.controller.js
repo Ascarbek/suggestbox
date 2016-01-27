@@ -7,6 +7,9 @@
     angular
         .module('demo')
         .controller('examples', ['$scope', function($scope){
+            ga('set', 'page', '/Examples');
+            ga('send', 'pageview');
+
             var vm = this;
 
             vm.cities = [
