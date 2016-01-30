@@ -584,23 +584,27 @@
                             }
                         });
 
-                        $document.on('click',function(e){               // handler to close SuggestBox on document click
-                            var el = e.target;
-                            var isClickedOnSB = false;
-                            do{
-                                if(el.attributes){
-                                    if((el.attributes['az-suggest-box'])||(el.attributes['sb-selection-item'])||(el.attributes['sb-trigger-area'])){  // if clicked inside the SuggestBox then no need to interfere
-                                        isClickedOnSB = true;
-                                        break;
+                        if(!$rootScope[$scope.sbBroadcastEventName]) {         // check if document already has our onclick event, using broadcasteventname
+                            $document.on('click', function (e) {               // handler to close SuggestBox on document click
+                                var el = e.target;
+                                var isClickedOnSB = false;
+                                do {
+                                    if (el.attributes) {
+                                        if ((el.attributes['az-suggest-box']) || (el.attributes['sb-selection-item']) || (el.attributes['sb-trigger-area'])) {  // if clicked inside the SuggestBox then no need to interfere
+                                            isClickedOnSB = true;
+                                            break;
+                                        }
                                     }
-                                }
-                                el = el.parentNode;
+                                    el = el.parentNode;
 
-                            } while(el != undefined);
-                            if(!isClickedOnSB){  // if clicked outside the SuggestBox then send close msg
-                                $rootScope.$broadcast($scope.sbBroadcastEventName);
-                            }
-                        });
+                                } while (el != undefined);
+                                if (!isClickedOnSB) {  // if clicked outside the SuggestBox then send close msg
+                                    $rootScope.$broadcast($scope.sbBroadcastEventName);
+                                }
+                            });
+
+                            $rootScope[$scope.sbBroadcastEventName] = true;  // marking this rootscope to prevent excessive document onclick binding
+                        }
 
                         $scope.$on($scope.sbBroadcastEventName, function(){      // handling close msg
                             if(!$scope.weSentBroadcast) {                        // close other dropdowns on the page except us
