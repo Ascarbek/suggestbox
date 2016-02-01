@@ -19,7 +19,7 @@
   "dependencies": {
     "angular": "~1.4.8",
     "font-awesome": "~4.5.0",
-    "angular-suggestbox": "~0.2.2",
+    "angular-suggestbox": "~0.3.0",
     "angular-animate": "~1.4.8",
     "angular-sanitize": "~1.4.8",
     "angular-ui-router": "~0.2.15"

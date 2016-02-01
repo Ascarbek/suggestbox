@@ -353,25 +353,25 @@
                 transclude: true,
                 restrict: 'AE',
                 scope: {
-                    listAlias: '@sbListItemAlias',
+                    listAlias: '@?sbListItemAlias',
                     list: '=sbList',
-                    modelAlias: '@sbModelAlias',
-                    model: '=sbModel',
-                    indexes: '=sbSelectedIndexes',
-                    sbMaxSelection: '=',
-                    sbAllowDuplicates: '=',
-                    sbAllowFreeText: '=',
-                    sbAllowAddItem: '=',
-                    sbNewItemField: '@',
-                    sbSearchFieldsRaw: '@sbSearchFields',
-                    sbKeyFieldsRaw: '@sbKeyFields',
-                    sbSelectFirstListItem: '=',
-                    sbBroadcastEventName: '@',
-                    sbSelectedListItemClass: '@',
-                    sbHighlightedListItemClass: '@',
-                    sbCloseListOnSelect: '=',
-                    sbOnSelectionChange: '&',
-                    sbIsOpen: '@'
+                    modelAlias: '@?sbModelAlias',
+                    model: '=?sbModel',
+                    indexes: '=?sbSelectedIndexes',
+                    sbMaxSelection: '=?',
+                    sbAllowDuplicates: '=?',
+                    sbAllowFreeText: '=?',
+                    sbAllowAddItem: '=?',
+                    sbNewItemField: '@?',
+                    sbSearchFieldsRaw: '@?sbSearchFields',
+                    sbKeyFieldsRaw: '@?sbKeyFields',
+                    sbSelectFirstListItem: '=?',
+                    sbBroadcastEventName: '@?',
+                    sbSelectedListItemClass: '@?',
+                    sbHighlightedListItemClass: '@?',
+                    sbCloseListOnSelect: '=?',
+                    sbOnSelectionChange: '&?',
+                    sbIsOpen: '@?'
                 },
                 link: function(scope){
                     scope.init();
@@ -405,6 +405,8 @@
                         $scope.sbSelectedListItemClass = $scope.sbSelectedListItemClass || 'ng-hide';
                         $scope.sbHighlightedListItemClass = $scope.sbHighlightedListItemClass || 'sb-list-item-highlight';
                         $scope.sbCloseListOnSelect = $scope.sbCloseListOnSelect || false;
+
+                        $scope.sbOnSelectionChange = $scope.sbOnSelectionChange || function(){};
 
                         $scope.weSentBroadcast = false;
 
@@ -573,6 +575,7 @@
                                             }
                                         }
                                         if(foundIndex > -1){
+                                            $scope.model[m] = $scope.list[foundIndex];             // get all properties in case if only the key fields are set
                                             $scope.model[m].$listIndex = foundIndex;               // add $listIndex field for future use
                                             $scope.indexes.push(foundIndex);
                                         }
@@ -584,23 +587,27 @@
                             }
                         });
 
-                        $document.on('click',function(e){               // handler to close SuggestBox on document click
-                            var el = e.target;
-                            var isClickedOnSB = false;
-                            do{
-                                if(el.attributes){
-                                    if((el.attributes['az-suggest-box'])||(el.attributes['sb-selection-item'])||(el.attributes['sb-trigger-area'])){  // if clicked inside the SuggestBox then no need to interfere
-                                        isClickedOnSB = true;
-                                        break;
+                        if(!$rootScope[$scope.sbBroadcastEventName]) {         // check if document already has our onclick event, using broadcasteventname
+                            $document.on('click', function (e) {               // handler to close SuggestBox on document click
+                                var el = e.target;
+                                var isClickedOnSB = false;
+                                do {
+                                    if (el.attributes) {
+                                        if ((el.attributes['az-suggest-box']) || (el.attributes['sb-selection-item']) || (el.attributes['sb-trigger-area'])) {  // if clicked inside the SuggestBox then no need to interfere
+                                            isClickedOnSB = true;
+                                            break;
+                                        }
                                     }
-                                }
-                                el = el.parentNode;
+                                    el = el.parentNode;
 
-                            } while(el != undefined);
-                            if(!isClickedOnSB){  // if clicked outside the SuggestBox then send close msg
-                                $rootScope.$broadcast($scope.sbBroadcastEventName);
-                            }
-                        });
+                                } while (el != undefined);
+                                if (!isClickedOnSB) {  // if clicked outside the SuggestBox then send close msg
+                                    $rootScope.$broadcast($scope.sbBroadcastEventName);
+                                }
+                            });
+
+                            $rootScope[$scope.sbBroadcastEventName] = true;  // marking this rootscope to prevent excessive document onclick binding
+                        }
 
                         $scope.$on($scope.sbBroadcastEventName, function(){      // handling close msg
                             if(!$scope.weSentBroadcast) {                        // close other dropdowns on the page except us

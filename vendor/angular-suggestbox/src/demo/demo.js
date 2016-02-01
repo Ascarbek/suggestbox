@@ -388,6 +388,8 @@
                 country: 'United Kingdom'
             }];
 
-
+            vm.onChange1 = function(){
+                console.log(vm.model1);
+            }
         }]);
 })();
