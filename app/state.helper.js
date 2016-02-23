@@ -21,6 +21,7 @@
                 enabled: true,
                 requireBase: false
             });*/
+            $locationProvider.hashPrefix('!');
 
             $urlRouterProvider.otherwise('/');
         }]);
