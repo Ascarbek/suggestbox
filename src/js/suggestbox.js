@@ -180,11 +180,11 @@
                                     $scope.model[$scope.model.length-1].$listIndex = $scope.indexes[i];
                                 }
                             }
+
+                            $scope.sbOnSelectionChange();
                         });
 
                         $scope.$watchCollection('model', function(){
-                            $scope.sbOnSelectionChange();
-
                             /*
                              * synchronizing model and indexes
                              * */
