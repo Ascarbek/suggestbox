@@ -8,9 +8,9 @@
     <title>SuggestBox demo page</title>
 
     <script src="vendor/angular/angular.min.js"></script>
-    <!--<script src="vendor/angular-sanitize/angular-sanitize.min.js"></script>-->
+    <script src="vendor/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="vendor/angular-suggestbox/dist/suggest.box.min.js"></script>
-    <script src="app/home/home.controller.js"></script>
+    <script src="app/examples/examples.controller.js"></script>
 
     <link rel="stylesheet" href="vendor/angular-suggestbox/dist/suggest.box.min.css">
     <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
@@ -35,40 +35,10 @@
 <body>
 
 <div class="navbar">
-    <a class="item active" href="index.html">Home</a>
+    <a class="item" href="index.html">Home</a>
     <a class="item" href="examples.html" >Examples</a>
     <a class="item" href="documentation.html">Documentation</a>
-    <a class="item" href="tutorial.html">Tutorial</a>
-</div>
-
-<div class="home" ng-app="demo" ng-controller="home as vm">
-    <div class="page-title">Angular SuggestBox</div>
-    <div class="small">Dropdown multiselect for AngularJS</div>
-    <div class="example-block">
-        <div class="title">Select City:</div>
-        <div
-                az-suggest-box
-                sb-list="vm.cities"
-                sb-model="vm.model"
-                class="suggest-box"
-                sb-is-open="true"
-                sb-selected-list-item-class="sb-list-item-checked"
-        >
-
-            <div class="select">
-                <div class="input">
-                    <div sb-selection-item class="selection-item">{{s.name}}&nbsp;<span sb-remove-item-from-selection class="rem-btn"><i class="fa fa-times"></i></span></div>
-                    <input sb-trigger-area sb-type-ahead tabindex="1">
-                </div>
-
-                <button sb-trigger-area><i class="fa fa-chevron-down"></i></button>
-            </div>
-
-            <ul class="dropdown">
-                <li sb-dropdown-item class="item">{{i.name}}</li>
-            </ul>
-        </div>
-    </div>
+    <a class="item active" href="tutorial.html">Tutorial</a>
 </div>
 
 <script>

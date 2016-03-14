@@ -5,7 +5,7 @@
     'use strict';
 
     angular
-        .module('demo')
+        .module('demo', ['azSuggestBox', 'ngSanitize'])
         .controller('examples', ['$scope', function($scope){
             ga('set', 'page', '/Examples');
             ga('send', 'pageview');

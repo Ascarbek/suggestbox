@@ -5,7 +5,7 @@
     'use strict';
 
     angular
-        .module('demo')
+        .module('demo', ['azSuggestBox'])
         .controller('home', ['$scope', function($scope){
             ga('set', 'page', '/Homepage');
             ga('send', 'pageview');

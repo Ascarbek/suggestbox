@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="SuggestBox - Dropdown multiselect for AngularJS">
+    <meta name="keywords" content="Angular SuggestBox,JavaScript,AngularJS,Angular,Dropdown,Multiselect,Combobox,Autocomplete,SuggestBox">
+    <meta name="author" content="Ascarbek">
+    <title>SuggestBox demo page</title>
+
+    <script src="vendor/angular/angular.min.js"></script>
+    <script src="vendor/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="vendor/angular-suggestbox/dist/suggest.box.min.js"></script>
+    <script src="app/examples/examples.controller.js"></script>
+
+    <link rel="stylesheet" href="vendor/angular-suggestbox/dist/suggest.box.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="app/animation.css">
+    <link rel="stylesheet" href="app/demo.css">
+    <link rel="stylesheet" href="app/navbar.css">
+    <link rel="stylesheet" href="app/documentation/documentation.style.css">
+    <link rel="stylesheet" href="app/examples/examples.style.css">
+    <link rel="stylesheet" href="app/home/home.style.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,500italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700,300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Anonymous+Pro' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.0.0/styles/darkula.min.css">
+    <script src="//cdn.jsdelivr.net/highlight.js/9.0.0/highlight.min.js"></script>
+</head>
+<body>
+
+<div class="navbar">
+    <a class="item" href="index.html">Home</a>
+    <a class="item" href="examples.html" >Examples</a>
+    <a class="item active" href="documentation.html">Documentation</a>
+    <a class="item" href="tutorial.html">Tutorial</a>
+</div>
+
+<div class="documentation">
+    <div class="page-title">Attributes:</div>
+    <div class="desc">Here is the list of all attributes. Attributes should be placed on root directive (az-suggest-box).</div>
+    <div class="table">
+        <table>
+            <thead>
+            <tr>
+                <th>name</th>
+                <th>description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>sb-list</td>
+                <td class="desc">type: <span class="hl-code">array</span></td>
+            </tr>
+            <tr>
+                <td>sb-list-item-alias</td>
+                <td class="desc">type: <span class="hl-code">string</span> default value: <span class="hl-code">'i'</span> </td>
+            </tr>
+            <tr>
+                <td>sb-model</td>
+                <td class="desc">type: <span class="hl-code">array</span> default value: <span class="hl-code">[]</span> </td>
+            </tr>
+            <tr>
+                <td>sb-model-alias</td>
+                <td class="desc">type: <span class="hl-code">string</span> default value: <span class="hl-code">'s'</span> </td>
+            </tr>
+            <tr>
+                <td>sb-selected-indexes</td>
+                <td class="desc">type: <span class="hl-code">array</span> default value: <span class="hl-code">[]</span> </td>
+            </tr>
+            <tr>
+                <td>sb-max-selection</td>
+                <td class="desc">type: <span class="hl-code">integer</span> default value: <span class="hl-code">0</span> </td>
+            </tr>
+            <tr>
+                <td>sb-allow-duplicates</td>
+                <td class="desc">type: <span class="hl-code">boolean</span> default value: <span class="hl-code">false</span> </td>
+            </tr>
+            <tr>
+                <td>sb-allow-free-text</td>
+                <td class="desc">type: <span class="hl-code">boolean</span> default value: <span class="hl-code">false</span> </td>
+            </tr>
+            <tr>
+                <td>sb-allow-add-item</td>
+                <td class="desc">type: <span class="hl-code">boolean</span> default value: <span class="hl-code">false</span> </td>
+            </tr>
+            <tr>
+                <td>sb-new-item-field</td>
+                <td class="desc">type: <span class="hl-code">string</span> default value: <span class="hl-code">'name'</span> </td>
+            </tr>
+            <tr>
+                <td>sb-search-fields</td>
+                <td class="desc">type: <span class="hl-code">string</span> default value: <span class="hl-code">null</span> space separated field names, </td>
+            </tr>
+            <tr>
+                <td>sb-key-fields</td>
+                <td class="desc">type: <span class="hl-code">string</span> default value: <span class="hl-code">null</span>space separated field names</td>
+            </tr>
+            <tr>
+                <td>sb-select-first-list-item</td>
+                <td class="desc">type: <span class="hl-code">boolean</span> default value: <span class="hl-code">false</span> </td>
+            </tr>
+            <tr>
+                <td>sb-broadcast-event-name</td>
+                <td class="desc">type: <span class="hl-code">string</span> default value: <span class="hl-code">'azSuggestBoxSelect'</span> </td>
+            </tr>
+            <tr>
+                <td>sb-selected-list-item-class</td>
+                <td class="desc">type: <span class="hl-code">string</span> default value: <span class="hl-code">'ng-hide'</span> </td>
+            </tr>
+            <tr>
+                <td>sb-highlighted-list-item-class</td>
+                <td class="desc">type: <span class="hl-code">string</span> default value: <span class="hl-code">'sb-list-item-highlight'</span> </td>
+            </tr>
+            <tr>
+                <td>sb-close-list-on-select</td>
+                <td class="desc">type: <span class="hl-code">boolean</span> default value: <span class="hl-code">false</span> </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="page-title">Directives:</div>
+    <div class="desc">Directives assign behaviour to an html element.</div>
+    <div class="table">
+        <table>
+            <thead>
+            <tr>
+                <th>name</th>
+                <th>description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>az-suggest-box</td>
+                <td class="desc">
+                    Root directive that holds all attributes and defines the scope object that is used in all other SuggestBox directives.
+                    All other SuggestBox directives should be placed inside the root directive.
+                </td>
+            </tr>
+            <tr>
+                <td>sb-selection-item</td>
+                <td class="desc">
+                    Selected items repeater. Copies an html element on which it is placed on as much times as
+                    there are selected items. Works like <span style="font-family: monospace;">ng-repeat</span> directive.
+                </td>
+            </tr>
+            <tr>
+                <td>sb-remove-item-from-selection</td>
+                <td class="desc">
+                    A button to remove item from selection. In examples you will see it as a small cross icon on each selected item.
+                    This directive should be placed inside <span style="font-family: monospace;">sb-selection-item</span> directive.
+                </td>
+            </tr>
+            <tr>
+                <td>sb-trigger-area</td>
+                <td class="desc">
+                    A button to show or hide dropdown list.
+                </td>
+            </tr>
+            <tr>
+                <td>sb-type-ahead</td>
+                <td class="desc">
+                    Handles search throw list items. Must be placed on input element.
+                </td>
+            </tr>
+            <tr>
+                <td>sb-dropdown-item</td>
+                <td class="desc">
+                    Dropdown items repeater. Works like angular's <span style="font-family: monospace;">ng-repeat</span>.
+                    As an array for repeating it uses <span style="font-family: monospace;">sb-list</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="page-title">Functions:</div>
+    <div class="desc">Some useful functions.</div>
+    <div class="table">
+        <table>
+            <thead>
+            <tr>
+                <th>name</th>
+                <th>description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>getSearchResultsCount</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>getListItemsCount</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>getSelectionCount</td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-72969310-1', 'auto');
+
+</script>
+
+</body>
+</html>
