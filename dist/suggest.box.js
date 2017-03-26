@@ -522,11 +522,11 @@
                                     $scope.model[$scope.model.length-1].$listIndex = $scope.indexes[i];
                                 }
                             }
+
                             $scope.sbOnSelectionChange();
                         });
 
                         $scope.$watchCollection('model', function(){
-
                             /*
                              * synchronizing model and indexes
                              * */
@@ -611,12 +611,10 @@
 
                         $scope.$on($scope.sbBroadcastEventName, function(){      // handling close msg
                             if(!$scope.weSentBroadcast) {                        // close other dropdowns on the page except us
-                                if($scope.dropDownState()) {
-                                    $scope.closeDropDown();
-                                    $scope.$apply();
-                                }
+                                $scope.closeDropDown();
                             }
                             $scope.weSentBroadcast = false;
+                            $scope.$apply();
                         });
                     };
                 }]
